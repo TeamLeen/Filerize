@@ -29,6 +29,18 @@ def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
 
     return folder
 
+def recursive_search(folder: fstructs.Folder = None):
+    folder = crawl(folder=folder)
+
+
+    for file in folder.files:
+        # ftools.move()
+        print(file.name)
+
+    for subfolder in folder.subfolders:
+        recursive_search(folder=subfolder)
+
+
 
 def move(src: fstructs.File = None, dst: str = None) -> None:
     """ move folder """
@@ -41,12 +53,7 @@ def move(src: fstructs.File = None, dst: str = None) -> None:
     else:
         raise FileNotFoundError
 
-<<<<<<< HEAD
 ##debug
-=======
-
-# debug
->>>>>>> 5492d6928ea2a2a3b4574a27d7234f824a68c0b6
 # def main():
 #     file = fstructs.File(path=r"D:\dev\hacknotts\23\Filerize\filetools\example_file.txt")
 #     move(src=file, dst=r"D:\dev\hacknotts\23\Filerize\filetools\dst")
