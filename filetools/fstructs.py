@@ -4,8 +4,7 @@
 import json
 from hashlib import sha256
 
-
-class File:
+class File(object):
     """ path argument requires \\ \\ not / """
     def __init__(self, path) -> None:
         self.path = path 
@@ -30,7 +29,7 @@ class File:
         return hash
         
 
-class Folder:
+class Folder(object):
     def __init__(self, path) -> None:
         self.path = path
         self.files = []  # array of File classes
