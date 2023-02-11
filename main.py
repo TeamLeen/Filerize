@@ -19,6 +19,7 @@ labels = {
 }
 
 
+<<<<<<< HEAD
 parser = argparse.ArgumentParser(prog="Filerize", 
                                  description="Document sorter using GPT-3",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
@@ -28,15 +29,23 @@ args = parser.parse_args()
 def parsing():
     folder = fstructs.Folder(path = args.directory)
     folder, count = ftools.crawl(folder=folder)
+=======
+def main():
+    # debug
+    # folder = fstructs.Folder(path="D:\\music")
 
-    for dir in folder.subfolders:
-        print(dir.path)
+    # folder, count = ftools.crawl(folder=folder)
+>>>>>>> 5248b805e814b60d30cf6ce72f77aab2a72174f5
+
+    # for dir in folder.subfolders:
+    #     print(dir.path)
 
 def main():
     ## debug
 
     # PDF to text
-    test_pdf: str = FileToText.pdf_to_text('./test_files/1007_cw.pdf')
+    test_pdf: str = FileToText.pdf_to_text(
+        './test_files/1007_cw.pdf', CUT_STR=True)
     # Classify text
     print(f"Label for test pdf: {classify.classify(test_pdf, labels)}")
 
