@@ -1,3 +1,4 @@
+import asyncio
 import json
 import os
 
@@ -17,21 +18,17 @@ def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
         path = os.path.join(root, item)
 
         if os.path.isfile(path=path):
-
             file = fstructs.File(path=path)
-
             folder.files.append(file)
-            fileCount += 1
         else:
             subfolder = fstructs.Folder(path=path)
             folder.subfolders.append(subfolder)
-            folderCount += 1
 
     return folder
 
+
 def recursive_search(folder: fstructs.Folder = None):
     folder = crawl(folder=folder)
-
 
     for file in folder.files:
         # ftools.move()
@@ -39,6 +36,18 @@ def recursive_search(folder: fstructs.Folder = None):
     for subfolder in folder.subfolders:
         recursive_search(folder=subfolder)
 
+
+async def recursive_visit(folder: fstructs.Folder = None, visit=None):
+    folder = crawl(folder=folder)
+
+    if visit is not None:
+        await visit(folder)
+
+    # for file in folder.files:
+    #     # ftools.move()
+    #     print(file.name)
+    for subfolder in folder.subfolders:
+        await recursive_visit(folder=subfolder, visit=visit)
 
 
 def move(src: fstructs.File = None, dst: str = None) -> None:
@@ -52,7 +61,7 @@ def move(src: fstructs.File = None, dst: str = None) -> None:
     else:
         raise FileNotFoundError
 
-##debug
+# debug
 # def main():
 #     file = fstructs.File(path=r"D:\dev\hacknotts\23\Filerize\filetools\example_file.txt")
 #     move(src=file, dst=r"D:\dev\hacknotts\23\Filerize\filetools\dst")
