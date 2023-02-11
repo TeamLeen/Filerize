@@ -29,5 +29,18 @@ def choose_folder():
     folder = wx.DirSelector(message="select")
     return folder
 
+@eel.expose
+def delete_folder(folder_path):
+    with open("./config.json", "r") as config_file:
+        config_json = json.loads(config_file.read())
+
+    folders = [folder for folder in config_json["folders"] if folder["path"] != folder_path]
+    config_json["folders"] = folders
+
+    with open("./config.json", "w") as config_file:
+        config_file.write(json.dumps(config_json))
+
+    return True
+
 eel.init('web')
 eel.start('index.html', size=(1078, 800))
