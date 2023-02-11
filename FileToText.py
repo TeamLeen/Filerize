@@ -2,7 +2,8 @@ from PyPDF2 import PdfReader
 from docx2python import docx2python
 from pptx import Presentation
 
-
+from PIL import Image
+from PIL.ExifTags import TAGS
 
 class FileToText:
 
@@ -73,10 +74,33 @@ class FileToText:
 
         return file_text
 
+    
+    @staticmethod
+    def extract_text_from_image(path):
+        pass
+
+
+    @staticmethod
+    def metadata_from_image(path):
+        metadata = {} 
+
+        image = Image.open(f"{path}")
+        
+        exifdata = image.getexif()
+
+        for tag_id in exifdata:
+            tag = TAGS.get(tag_id, tag_id)
+            data = exifdata.get(tag_id)
+            if isinstance(data, bytes):
+                data = data.decode()
+            
+            metadata[f"{tag}"] = data
+        return metadata
+
 
         
 if __name__ == "__main__":
-    print("FileToText running...")
+    print("FileToText.py running...")
     # print(FileToText.pdf_to_text("../test.pdf", True))
     # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf", CUT_STR=True, max_output_length=100))
     # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
@@ -84,3 +108,6 @@ if __name__ == "__main__":
     # print(FileToText.pptx_to_text("./test_files/COMP1004.pptx", CUT_STR=True, max_output_length=100))
 
     # print(FileToText.docx_to_text("./test_files/doc.docx"))
+
+    FileToText.metadata_from_image("./test_files/quote_picture.jpeg")
+    FileToText.metadata_from_image("./test_files/exif_test.jpg")
