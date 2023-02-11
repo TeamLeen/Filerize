@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import shutil
 
 #  local testing
 if __name__ == "__main__":
@@ -27,14 +28,14 @@ def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
     return folder
 
 
-def recursive_search(folder: fstructs.Folder = None):
+def recursive_move(folder: fstructs.Folder = None) -> None:
     folder = crawl(folder=folder)
 
     for file in folder.files:
-        # ftools.move()
-        print(file.name)
+        copy(src=file)
+        
     for subfolder in folder.subfolders:
-        recursive_search(folder=subfolder)
+        recursive_move(folder=subfolder)
 
 
 async def recursive_visit(folder: fstructs.Folder = None, visit=None):
@@ -43,9 +44,6 @@ async def recursive_visit(folder: fstructs.Folder = None, visit=None):
     if visit is not None:
         await visit(folder)
 
-    # for file in folder.files:
-    #     # ftools.move()
-    #     print(file.name)
     for subfolder in folder.subfolders:
         await recursive_visit(folder=subfolder, visit=visit)
 
@@ -60,6 +58,16 @@ def move(src: fstructs.File = None, dst: str = None) -> None:
         os.rename(src=src.path, dst=dstPath)
     else:
         raise FileNotFoundError
+    
+def copy(src: fstructs.File = None) -> None:
+    """ copy file """
+
+    if os.path.exists(src.path):
+        dst = os.path.join(src.label, src.name)
+        os.rename(src=src.path, dst=dst)
+    else:
+        raise FileNotFoundError
+    
 
 # debug
 # def main():

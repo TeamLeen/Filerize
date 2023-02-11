@@ -42,18 +42,19 @@ async def label_folder(folder: fstructs.Folder):
 
     for file in tasks:
         file.label = await tasks[file]
-        if not file.label:
-            print("no")
-        else:
-            print(file.label)
 
 
 async def main():
-    print("test")
     Config.load()
     Config.set_src_folder('test_files')
+    
     folder = fstructs.Folder(path=args.directory)
     await ftools.recursive_visit(folder=folder, visit=label_folder)
+    
+    ftools.recursive_move(folder=folder)
+        
+    
+    
 
 
 asyncio.run(main())
