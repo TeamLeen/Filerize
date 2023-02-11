@@ -10,11 +10,3 @@ parser = argparse.ArgumentParser(prog="Filerize",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
 parser.add_argument("directory", type=str)
 args = parser.parse_args()
-
-# def main():
-#     folder = fstructs.Folder(path=args.directory)
-#     RecursiveSearch(folder=folder)
-
-
-
-# main()

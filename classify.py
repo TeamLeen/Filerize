@@ -95,35 +95,3 @@ class FileClassifier:
                 return response.get('choices')[0].text.strip()
             except (KeyError, IndexError):
                 return None
-
-
-async def main():
-
-    # TEST FILES
-    labels = {
-        'comp1005': 'C',
-        'comp1006': 'Assembly',
-        'comp1007': 'Digital Logic',
-        'comp1001': 'Discrete Maths',
-        # 'comp1004': 'Databases',
-        # 'comp1043': 'Linear Algebra',
-        # 'comp1003': 'Software Engineering',
-        # 'comp1009': 'Java and Haskell Programming',
-        # 'comp1008': 'Artifitial Intelligence'
-    }
-
-    loop = asyncio.get_event_loop()
-
-    tasks = []
-    for i in range(1, 2):
-        with open(f'test_files/{i}.txt') as f:
-            tasks.append(loop.create_task(
-                FileClassifier.summarize(f.read(), max_chars=100))
-            )
-
-    for task in tasks:
-        print(await task)
-
-
-if __name__ == '__main__':
-    asyncio.run(main())
