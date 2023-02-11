@@ -5,3 +5,5 @@ docx2python
 aiohttp
 eel
 wxPython
+click
+watchdog
