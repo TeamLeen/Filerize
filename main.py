@@ -6,7 +6,6 @@ import os
 import classify
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
-import parsing
 from classify import FileClassifier
 from config import Config
 from FileToText import FileToText
