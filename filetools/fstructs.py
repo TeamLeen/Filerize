@@ -2,6 +2,7 @@
 # @sanamorii - jian
 
 import json
+import os
 from hashlib import sha256
 
 class File(object):
@@ -11,9 +12,6 @@ class File(object):
         self.name, self.ext = self.ParsePath()
         self.hash = self.Hash()
 
-        
-        
-    
     def ParsePath(self) -> None:
         return self.path.split("\\")[-1], self.path.split(".")[-1]
 
@@ -35,9 +33,7 @@ class Folder(object):
         self.files = []  # array of File classes
         self.subfolders = []  # array of Folder classes
 
-    
-
-
+        
 ### debug
 
 # def main():
