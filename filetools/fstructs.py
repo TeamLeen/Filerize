@@ -16,14 +16,11 @@ class File:
         self.name = self.path.split("\\")[-1]
         self.ext = self.path.split(".")[-1]
 
-class Directories:
-    def __init__(self) -> None:
-        self.folders = []
-        
 class Folder:
-    def __init__(self) -> None:
-        self.path = None
+    def __init__(self, path) -> None:
+        self.path = path
         self.files = []  # array of File classes
+        self.subfolders = []  # array of Folder classes
 
     
 
