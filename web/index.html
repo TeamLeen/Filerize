@@ -85,8 +85,21 @@
                 e.preventDefault();
                 let folder_path = $("#new_folder_form").find(".path").text();
                 let folder_description = $("#new_folder_form").find("#folder_description").val();
-                // TODO: Validate 
+
+                if(folder_path == ""){
+                    alert("Please select a folder");
+                    return;
+                }
+
+                if(folder_description == ""){
+                    alert("Please write a description");
+                    return;
+                }
+
                 await eel.add_new_folder(folder_path, folder_description);
+                $("#new_folder_form").find(".path").text("");
+                $("#new_folder_form").find("#folder_description").val("");
+                
                 display_folders();
             });
         </script>
