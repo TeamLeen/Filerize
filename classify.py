@@ -9,6 +9,19 @@ load_dotenv()
 openai.api_key = os.environ.get('openai_token')
 
 
+# TODO: tweak
+PRE_PROMPT = "Classify the text into one of the following categories:"
+
+GPT_ARGS = {
+    'model': "text-davinci-003",
+    'temperature': 0,
+    'max_tokens': 60,
+    'top_p': 1.0,
+    'frequency_penalty': 0.0,
+    'presence_penalty': 0.0
+}
+
+
 class FileClassifier:
 
     @staticmethod
@@ -29,17 +42,12 @@ class FileClassifier:
 
             summaries = [s.strip() for s in labels.values()]
 
-            prompt = f"Classify the text into one of the following categories: {', '.join(labels.values())}\n\n" \
+            prompt = f"{PRE_PROMPT} {', '.join(labels.values())}\n\n" \
                 f"Text: \n{text}"
 
             response = openai.Completion.create(
-                model="text-davinci-003",
                 prompt=prompt,
-                temperature=0,
-                max_tokens=60,
-                top_p=1.0,
-                frequency_penalty=0.0,
-                presence_penalty=0.0
+                *GPT_ARGS,
             )
 
             try:
