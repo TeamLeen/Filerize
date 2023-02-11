@@ -25,10 +25,11 @@ class Folder:
     
 
 
+### debug
 
-def main():
-    file = File(path=".\\text.txt")
-    file.parsePath()
-    print(file.name, file.ext)
+# def main():
+#     file = File(path=".\\text.txt")
+#     file.parsePath()
+#     print(file.name, file.ext)
         
-main()
+# main()

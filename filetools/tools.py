@@ -18,6 +18,8 @@ def crawl(folder:fstructs.Folder = None):
 
     for item in os.listdir(root):
         path = os.path.join(root, item)
+
+
         if os.path.isfile(path=path):
 
             file = fstructs.File(path = path)
@@ -35,7 +37,7 @@ def crawl(folder:fstructs.Folder = None):
 def main():
     folder = fstructs.Folder(path="D:\\music")
     cfolder, count = crawl(folder=folder)
-    for f in folder.subfolders:
+    for f in cfolder.subfolders:
         print(f.path)
 
 main()
