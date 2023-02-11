@@ -51,8 +51,5 @@ async def main():
     folder = fstructs.Folder(path=args.directory)
     await ftools.recursive_visit(folder=folder, visit=label_folder)
 
-    for i in range(0, len(folder.subfolders)):
-        print(f"{folder.subfolders[i]}")
-
 
 asyncio.run(main())
