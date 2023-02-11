@@ -5,6 +5,7 @@ import json
 import classify
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
+from classify import FileClassifier
 from FileToText import FileToText
 
 labels = {
@@ -24,13 +25,13 @@ async def main():
     # debug
 
     files = ['1001.pdf', '1005.pdf', '1006.pdf', '1007.pdf']
-    tasks = {} 
+    tasks = {}
     for file in files:
         # PDF to text
         test_pdf: str = FileToText.pdf_to_text(
             f'./test_files/{file}', CUT_STR=True)
         # Classify text
-        tasks[file] = asyncio.create_task(classify.classify(test_pdf, labels))
+        tasks[file] = asyncio.create_task(FileClassifier.classify(test_pdf, labels))
 
     for file in tasks:
         print(f"Label for {file}: {await tasks[file]}")
