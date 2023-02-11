@@ -5,10 +5,11 @@ import json
 import classify
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
+from classify import FileClassifier
 from FileToText import FileToText
 
 labels = {
-    'comp1005': 'C',
+    'comp1005': 'C Programming',
     'comp1006': 'Assembly',
     'comp1007': 'Digital Logic',
     'comp1001': 'Discrete Maths',
@@ -19,14 +20,20 @@ labels = {
     # 'comp1008': 'Artifitial Intelligence'
 }
 
-def main():
-    ## debug
 
-    # PDF to text
-    test_pdf: str = FileToText.pdf_to_text(
-        './test_files/1007_cw.pdf', CUT_STR=True)
-    # Classify text
-    print(f"Label for test pdf: {await classify.classify(test_pdf, labels)}")
+async def main():
+    # debug
 
+    files = ['1001.pdf', '1005.pdf', '1006.pdf', '1007.pdf']
+    tasks = {}
+    for file in files:
+        # PDF to text
+        test_pdf: str = FileToText.pdf_to_text(
+            f'./test_files/{file}', CUT_STR=True)
+        # Classify text
+        tasks[file] = asyncio.create_task(FileClassifier.classify(test_pdf, labels))
+
+    for file in tasks:
+        print(f"Label for {file}: {await tasks[file]}")
 
 asyncio.run(main())
