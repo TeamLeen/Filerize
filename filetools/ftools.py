@@ -11,9 +11,6 @@ else:
 def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
     """ crawl first level of given directory """
 
-    fileCount = 0
-    folderCount = 0
-
     root = folder.path
 
     for item in os.listdir(root):
@@ -44,10 +41,6 @@ def move(src: fstructs.File = None, dst: str = None) -> None:
         os.rename(src = src.path, dst = dstPath)
     else:
         raise FileNotFoundError
-
-
-
-
 
 ##debug
 # def main():
