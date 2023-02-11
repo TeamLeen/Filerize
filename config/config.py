@@ -31,7 +31,7 @@ class Config:
             })
 
         with open(file=self.path, encoding='utf-8', mode="w") as f:
-            json.dumps(buffer)
+            json.dump(buffer, f)
 
     def set_src_folder(self, path: str):
         self.src_folder_path = path
