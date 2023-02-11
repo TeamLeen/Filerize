@@ -1,12 +1,10 @@
 import argparse
-import click
-import os
+import asyncio
 
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
 
-
-parser = argparse.ArgumentParser(prog="Filerize", 
+parser = argparse.ArgumentParser(prog="Filerize",
                                  description="Document sorter using GPT-3",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
 parser.add_argument("directory", type=str)
@@ -14,23 +12,25 @@ parser.add_argument("-s", "--setup", action="store_true")
 args = parser.parse_args()
 
 
-def main():
-    folder = fstructs.Folder(path = args.directory)
-    RecursiveSearch(folder = folder)
+# def main():
+#     folder = fstructs.Folder(path=args.directory)
+#     RecursiveSearch(folder=folder)
 
-def RecursiveSearch(folder: str = None):
+
+async def RecursiveSearch(folder: fstructs.Folder = None, visit=None):
     folder = ftools.crawl(folder=folder)
 
-    for i in range(0, len(folder.files)):
+    asyncio.create_task(visit(folder))
 
-        # do classification here
+    for file in folder.files:
+        # ftools.move()
+        print(file.name.encode('ascii', 'ignore'))
 
-        ftools.move()
-        print(folder.files[i].name.encode('ascii', 'ignore'))
-
-    for j in range(0, len(folder.subfolders)):
-        print(f"\n====\nJumping folders -> {folder.subfolders[j].path.encode('ascii', 'ignore')}\n====\n")
-        RecursiveSearch(folder = folder.subfolders[j])
+    for subfolder in folder.subfolders:
+        print(
+            f"\n====\nJumping folders -> {subfolder.path.encode('ascii', 'ignore')}\n====\n")
+        await RecursiveSearch(folder=subfolder, visit=visit)
     print(f"\n --- complete one ---> {folder.path.encode('ascii', 'ignore')}")
 
-main()
+
+# main()

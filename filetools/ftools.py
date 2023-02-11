@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 #  local testing
 if __name__ == "__main__":
@@ -8,7 +8,7 @@ else:
     import filetools.fstructs as fstructs
 
 
-def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
+def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
     """ crawl first level of given directory """
 
     fileCount = 0
@@ -19,10 +19,9 @@ def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
     for item in os.listdir(root):
         path = os.path.join(root, item)
 
-
         if os.path.isfile(path=path):
 
-            file = fstructs.File(path = path)
+            file = fstructs.File(path=path)
 
             folder.files.append(file)
             fileCount += 1
@@ -30,7 +29,7 @@ def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
             subfolder = fstructs.Folder(path=path)
             folder.subfolders.append(subfolder)
             folderCount += 1
-    
+
     return folder
 
 
@@ -41,15 +40,12 @@ def move(src: fstructs.File = None, dst: str = None) -> None:
     dstPath = os.path.join(dst, src.name)
 
     if os.path.exists(srcPath):
-        os.rename(src = src.path, dst = dstPath)
+        os.rename(src=src.path, dst=dstPath)
     else:
         raise FileNotFoundError
 
 
-
-
-
-##debug
+# debug
 # def main():
 #     file = fstructs.File(path=r"D:\dev\hacknotts\23\Filerize\filetools\example_file.txt")
 #     move(src=file, dst=r"D:\dev\hacknotts\23\Filerize\filetools\dst")
