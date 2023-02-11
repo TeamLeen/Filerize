@@ -9,48 +9,48 @@ load_dotenv()
 openai.api_key = os.environ.get('openai_token')
 
 
-"""
-Classifies a given text with into a set of categories
-Returns the chosen label
-Returns None if no label is chosen
+class FileClassifier:
 
-:param str text: The text to be classified
-:param dict[str, str] labels: a dict of labels + summaries 
-"""
+    @staticmethod
+    async def classify(text: str, labels: dict[str, str]) -> str | None:
+        """
+        Classifies a given text with into a set of categories
+        Returns: the chosen label / None if no label is chosen
 
+        :param str text: The text to be classified
+        :param dict[str, str] labels: a dict of labels + summaries 
+        """
+        async with ClientSession() as session:
+            openai.aiosession.set(session)
+            text = text.replace('\n', ' ')
+            labels = labels.copy()
+            for l in labels:
+                labels[l] = labels[l].strip()
 
-async def classify(text: str, labels: dict[str, str]) -> str | None:
-    async with ClientSession() as session:
-        openai.aiosession.set(session)
-        text = text.replace('\n', ' ')
-        labels = labels.copy()
-        for l in labels:
-            labels[l] = labels[l].strip()
+            summaries = [s.strip() for s in labels.values()]
 
-        summaries = [s.strip() for s in labels.values()]
+            prompt = f"Classify the text into one of the following categories: {', '.join(labels.values())}\n\n" \
+                f"Text: \n{text}"
 
-        prompt = f"Classify the text into one of the following categories: {', '.join(labels.values())}\n\n" \
-            f"Text: \n{text}"
+            response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=prompt,
+                temperature=0,
+                max_tokens=60,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.0
+            )
 
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt,
-            temperature=0,
-            max_tokens=60,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0
-        )
-
-        try:
-            # i hate union types >:(
-            cat = response.get('choices')[0].text.strip()
-            for k, v in labels.items():
-                if cat.find(v) != -1:
-                    return k
-            return None
-        except (KeyError, IndexError):
-            return None
+            try:
+                # i hate union types >:(
+                cat = response.get('choices')[0].text.strip()
+                for k, v in labels.items():
+                    if cat.find(v) != -1:
+                        return k
+                return None
+            except (KeyError, IndexError):
+                return None
 
 
 async def main():
@@ -73,7 +73,8 @@ async def main():
     tasks = []
     for i in range(1, 4):
         with open(f'test_files/{i}.txt') as f:
-            tasks.append(loop.create_task(classify(f.read(), labels)))
+            tasks.append(loop.create_task(
+                FileClassifier.classify(f.read(), labels)))
 
     for task in tasks:
         print(await task)
