@@ -19,7 +19,6 @@ labels = {
 }
 
 
-<<<<<<< HEAD
 parser = argparse.ArgumentParser(prog="Filerize", 
                                  description="Document sorter using GPT-3",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
@@ -29,16 +28,11 @@ args = parser.parse_args()
 def parsing():
     folder = fstructs.Folder(path = args.directory)
     folder, count = ftools.crawl(folder=folder)
-=======
-def main():
-    # debug
-    # folder = fstructs.Folder(path="D:\\music")
-
-    # folder, count = ftools.crawl(folder=folder)
->>>>>>> 5248b805e814b60d30cf6ce72f77aab2a72174f5
 
     # for dir in folder.subfolders:
     #     print(dir.path)
+
+# test
 
 def main():
     ## debug
