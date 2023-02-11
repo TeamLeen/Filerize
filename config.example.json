@@ -1,11 +1,11 @@
 {
     "folders": [
         {
-            "path": "comp1005",
+            "path": "testdest\\comp1005",
             "summary": "C Programming"
         },
         {
-            "path": "comp1006",
+            "path": "testdest\\comp1006",
             "summary": "Assembly"
         },
         {
@@ -13,7 +13,7 @@
             "summary": "Digital Logic"
         },
         {
-            "path": "comp1001",
+            "path": "testdest\\comp1001",
             "summary": "Discrete Maths"
         }
     ],
