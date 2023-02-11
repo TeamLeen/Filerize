@@ -7,4 +7,12 @@
 | `path`| yes: `File(path)` |
   
 
-```class Folder(object)```
+```class Folder(object)```  
+
+## Functions
+
+```filetools.ftools```
+| function | summary |
+| --- |
+| ```ftools.crawl``` | Thing |
+
