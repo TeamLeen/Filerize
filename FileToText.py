@@ -1,7 +1,12 @@
 from PyPDF2 import PdfReader
+from docx2python import docx2python
+
 
 
 class FileToText:
+
+    # max string size in chars
+    max_output_lenght = 1000
 
     @staticmethod
     def pdf_to_text(path, GET_PAGES=True, pages_to_get=1):
@@ -23,6 +28,29 @@ class FileToText:
 
         return file_text
 
+    
+    @staticmethod
+    def docx_to_text(path, CUT_STR=False, max_output_length=max_output_lenght):    
+        file_text = ""
+
+        with docx2python(f"{path}") as docx_content:
+            file_text = docx_content.text.replace("\n", " ")
+            
+            #removes multiple whitespaces
+            file_text = " ".join(file_text.split())
+
+        if CUT_STR:
+            file_text = file_text[:max_output_length]
+
+        return file_text
+
+
+    @staticmethod
+    def pptx_to_text():
+        pass
+
 
 # print(FileToText.pdf_to_text("./test.pdf", True))
 # print(FileToText.pdf_to_text("./loremipsum.pdf", True))
+
+# print(FileToText.docx_to_text("./test_files/doc.docx"))
