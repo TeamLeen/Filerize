@@ -12,6 +12,13 @@ from config import Config
 from FileToText import FileToText
 
 
+# parser = argparse.ArgumentParser(prog="Filerize",
+#                                  description="Document sorter using GPT-3",
+#                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
+# parser.add_argument("directory", type=str)
+# args = parser.parse_args()
+
+
 async def label_folder(folder: fstructs.Folder):
     files = [file for file in folder.files if file.ext == 'pdf']
     tasks: dict[fstructs.File, asyncio.Task] = {}
@@ -33,5 +40,6 @@ async def main():
     Config.set_src_folder('test_files')
     folder = fstructs.Folder(path=parsing.args.directory)
     await parsing.RecursiveSearch(folder=folder, visit=label_folder)
+
 
 asyncio.run(main())
