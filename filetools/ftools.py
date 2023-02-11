@@ -9,6 +9,7 @@ else:
 
 
 def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
+    """ crawl first level of given directory """
 
     fileCount = 0
     folderCount = 0
@@ -34,7 +35,7 @@ def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
 
 
 def move(src: fstructs.File = None, dst: str = None) -> None:
-    """ UHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh """
+    """ move folder """
 
     srcPath = src.path
     dstPath = os.path.join(dst, src.name)
