@@ -21,15 +21,16 @@ labels = {
 
 def main():
     # debug
-    folder = fstructs.Folder(path="D:\\music")
+    # folder = fstructs.Folder(path="D:\\music")
 
-    folder, count = ftools.crawl(folder=folder)
+    # folder, count = ftools.crawl(folder=folder)
 
-    for dir in folder.subfolders:
-        print(dir.path)
+    # for dir in folder.subfolders:
+    #     print(dir.path)
 
     # PDF to text
-    test_pdf: str = FileToText.pdf_to_text('./test_files/1007_cw.pdf')
+    test_pdf: str = FileToText.pdf_to_text(
+        './test_files/1007_cw.pdf', CUT_STR=True)
     # Classify text
     print(f"Label for test pdf: {classify.classify(test_pdf, labels)}")
 
