@@ -60,9 +60,16 @@ class FileClassifier:
                 return None
 
     @staticmethod
-    async def summarize(text):
+    async def summarize(text, max_chars=100, max_words=5):
+        """
+        Summarizes the text
+        Returns: summary
+
+        :param str text: The text to be classified
+        :param int max_chars: a dict of labels + summaries 
+        """
         # TODO: tweak
-        PRE_PROMPT = "Write a short summary for the following text:"
+        PRE_PROMPT = f"Write a short summary (within {max_chars} characters and {max_words} words) for the following text:"
 
         GPT_ARGS = {
             'model': 'text-davinci-003',
@@ -111,7 +118,8 @@ async def main():
     for i in range(1, 2):
         with open(f'test_files/{i}.txt') as f:
             tasks.append(loop.create_task(
-                FileClassifier.summarize(f.read())))
+                FileClassifier.summarize(f.read(), max_chars=100))
+                )
 
     for task in tasks:
         print(await task)
