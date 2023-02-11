@@ -22,7 +22,7 @@ parser.add_argument("directory", type=str)
 parser.add_argument("-v", "--verbose", action="store_true")
 args = parser.parse_args()
 
-if args.verbose: logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+# if args.verbose: logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
 def listen_daemon():
@@ -42,6 +42,10 @@ async def label_folder(folder: fstructs.Folder):
 
     for file in tasks:
         file.label = await tasks[file]
+        if not file.label:
+            print("no")
+        else:
+            print(file.label)
 
 
 async def main():
