@@ -12,6 +12,7 @@ openai.api_key = os.environ.get('openai_token')
 """
 Classifies a given text with into a set of categories
 Returns the chosen label
+Returns None if no label is chosen
 
 :param str text: The text to be classified
 :param dict[str, str] labels: a dict of labels + summaries 
@@ -42,7 +43,7 @@ async def classify(text: str, labels: dict[str, str]) -> str | None:
         )
 
         try:
-            # TODO: get rid of the linear search
+            # i hate union types >:(
             cat = response.get('choices')[0].text.strip()
             for k, v in labels.items():
                 if cat.find(v) != -1:
@@ -50,6 +51,7 @@ async def classify(text: str, labels: dict[str, str]) -> str | None:
             return None
         except (KeyError, IndexError):
             return None
+
 
 async def main():
 
@@ -68,7 +70,6 @@ async def main():
 
     loop = asyncio.get_event_loop()
 
-    # TODO: Async requests
     tasks = []
     for i in range(1, 4):
         with open(f'test_files/{i}.txt') as f:
