@@ -2,7 +2,6 @@ import argparse
 import asyncio
 import json
 import os
-
 import threading
 
 import classify
@@ -10,8 +9,7 @@ import filetools.fstructs as fstructs
 import filetools.ftools as ftools
 from classify import FileClassifier
 from config import Config
-from FileToText import FileToText
-
+from filetools.FileToText import FileToText
 
 parser = argparse.ArgumentParser(prog="Filerize",
                                  description="Document sorter using GPT-3",
@@ -19,12 +17,12 @@ parser = argparse.ArgumentParser(prog="Filerize",
 parser.add_argument("directory", type=str)
 args = parser.parse_args()
 
+
 async def label_folder(folder: fstructs.Folder):
     files = [file for file in folder.files if file.ext == 'pdf']
     tasks: dict[fstructs.File, asyncio.Task] = {}
     for file in files:
         # PDF to text
-        print("SFEFSFESFE: ", file.name)
         test_pdf: str = FileToText.pdf_to_text(
             f'{file.name}', CUT_STR=True, max_output_length=1000)
         # Classify text
@@ -39,8 +37,7 @@ async def main():
     Config.load()
     Config.set_src_folder('test_files')
     folder = fstructs.Folder(path=args.directory)
-    await ftools.recursive_search(folder=folder, visit=label_folder)
-
+    await ftools.recursive_visit(folder=folder, visit=label_folder)
 
 
 asyncio.run(main())
