@@ -58,7 +58,7 @@ class FileToText:
 
 
 # print(FileToText.pdf_to_text("../test.pdf", True))
-print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
+print(FileToText.pdf_to_text("./test_files/1007_cw.pdf", CUT_STR=True, max_output_length=100)
 # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
 
 
