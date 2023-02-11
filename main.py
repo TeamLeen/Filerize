@@ -35,7 +35,7 @@ async def label_folder(folder: fstructs.Folder):
     for file in files:
         # PDF to text
         test_pdf: str = FileToText.pdf_to_text(
-            f'{file.name}', CUT_STR=True, max_output_length=1000)
+            f'{file.path}', CUT_STR=True, max_output_length=1000)
         # Classify text
         tasks[file] = asyncio.create_task(
             FileClassifier.classify(test_pdf, Config.labels))
@@ -45,10 +45,14 @@ async def label_folder(folder: fstructs.Folder):
 
 
 async def main():
+    print("test")
     Config.load()
     Config.set_src_folder('test_files')
     folder = fstructs.Folder(path=args.directory)
     await ftools.recursive_visit(folder=folder, visit=label_folder)
+
+    for i in range(0, len(folder.subfolders)):
+        print(f"{folder.subfolders[i]}")
 
 
 asyncio.run(main())
