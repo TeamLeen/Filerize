@@ -1,5 +1,6 @@
-import json
 import argparse
+import asyncio
+import json
 
 import classify
 import filetools.fstructs as fstructs
@@ -19,14 +20,15 @@ labels = {
 }
 
 
-parser = argparse.ArgumentParser(prog="Filerize", 
+parser = argparse.ArgumentParser(prog="Filerize",
                                  description="Document sorter using GPT-3",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
 parser.add_argument("directory", type=str)
 args = parser.parse_args()
 
+
 def parsing():
-    folder = fstructs.Folder(path = args.directory)
+    folder = fstructs.Folder(path=args.directory)
     folder, count = ftools.crawl(folder=folder)
 
     # for dir in folder.subfolders:
@@ -34,14 +36,15 @@ def parsing():
 
 # test
 
-def main():
-    ## debug
+
+async def main():
+    # debug
 
     # PDF to text
     test_pdf: str = FileToText.pdf_to_text(
         './test_files/1007_cw.pdf', CUT_STR=True)
     # Classify text
-    print(f"Label for test pdf: {classify.classify(test_pdf, labels)}")
+    print(f"Label for test pdf: {await classify.classify(test_pdf, labels)}")
 
 
-main()
+asyncio.run(main())
