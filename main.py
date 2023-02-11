@@ -52,8 +52,8 @@ async def main():
     await ftools.recursive_visit(folder=folder, visit=label_folder)
     
     ftools.recursive_move(folder=folder)
-        
-    
+
+    print("test")
     
 
 

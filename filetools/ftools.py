@@ -1,7 +1,7 @@
 import asyncio
 import json
 import os
-import shutil
+import logging
 
 #  local testing
 if __name__ == "__main__":
@@ -27,17 +27,6 @@ def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
 
     return folder
 
-
-def recursive_move(folder: fstructs.Folder = None) -> None:
-    folder = crawl(folder=folder)
-
-    for file in folder.files:
-        copy(src=file)
-        
-    for subfolder in folder.subfolders:
-        recursive_move(folder=subfolder)
-
-
 async def recursive_visit(folder: fstructs.Folder = None, visit=None):
     folder = crawl(folder=folder)
 
@@ -47,31 +36,31 @@ async def recursive_visit(folder: fstructs.Folder = None, visit=None):
     for subfolder in folder.subfolders:
         await recursive_visit(folder=subfolder, visit=visit)
 
+def recursive_move(folder: fstructs.Folder = None) -> None:
+
+    for file in folder.files:
+        if file.label and os.path.exists(file.path):
+            print(file.label, file.name)
+            dst = os.path.join(file.label, file.name)
+            # os.rename(src=file.path, dst=dst)
+        else:
+            logging.error(f"failed")
+            
+    for subfolder in folder.subfolders:
+        recursive_move(folder=subfolder)
+
+def recursive_print(folder: fstructs.Folder = None):
+    for file in folder.files:
+        print(file.path, file.name)
+    for subfolder in folder.subfolders:
+        print(f"moving to {subfolder.path}")
+        recursive_print(folder = subfolder)
 
 def move(src: fstructs.File = None, dst: str = None) -> None:
-    """ move folder """
-
-    srcPath = src.path
-    dstPath = os.path.join(dst, src.name)
-
-    if os.path.exists(srcPath):
-        os.rename(src=src.path, dst=dstPath)
-    else:
-        raise FileNotFoundError
-    
-def copy(src: fstructs.File = None) -> None:
-    """ copy file """
+    """ move file """
 
     if os.path.exists(src.path):
         dst = os.path.join(src.label, src.name)
         os.rename(src=src.path, dst=dst)
     else:
         raise FileNotFoundError
-    
-
-# debug
-# def main():
-#     file = fstructs.File(path=r"D:\dev\hacknotts\23\Filerize\filetools\example_file.txt")
-#     move(src=file, dst=r"D:\dev\hacknotts\23\Filerize\filetools\dst")
-
-# main()
