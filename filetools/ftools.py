@@ -36,7 +36,6 @@ def recursive_search(folder: fstructs.Folder = None):
     for file in folder.files:
         # ftools.move()
         print(file.name)
-
     for subfolder in folder.subfolders:
         recursive_search(folder=subfolder)
 
