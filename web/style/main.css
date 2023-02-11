@@ -1,0 +1,13 @@
+header {
+    margin: auto;
+    border-radius: 1rem;
+    width: 95%;
+}
+
+.rounded {
+    border-radius: 1rem;
+}
+
+.folder {
+    background-color: white;
+}

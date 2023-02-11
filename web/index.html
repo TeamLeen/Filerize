@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="./style/main.css">
+        <script type='text/javascript' src='/eel.js'></script>
+        <title>Filerize</title>
+    </head>
+    <body>
+        <header class="container has-background-light py-4 px-4 mt-2">
+            <h1 class="title is-2">
+                Filerize
+            </h1>
+        </header>
+        <main class="container">
+            <h2 class="title is-3 mt-5">Folders</h2>
+            <div class="has-background-light py-5 px-5 rounded">
+                <div id="folders_list">
+
+                </div>
+                <div class="folder rounded px-5 py-5">
+                    <!-- TODO: Show folders that are in the config file here -->
+                    <form action="" id="new_folder_form">
+                        <h3 class="title is-4">Add a new folder</h3>
+                        <div>
+                            <label class="label" for="select_folder">Select Folder</label>
+                            <input class="control input" type="text" name="select_folder" id="select_folder">
+                        </div>
+                        <div class="mt-4">
+                            <label class="label" for="folder_description">Folder Description</label>
+                            <textarea class="control textarea" name="" id="" cols="10" rows="5"></textarea>
+                        </div>
+                        <button class="button is-success mt-5">Add</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <script>
+            // TODO: allow to edit the folder
+            async function display_folders(){
+                let config_request = await eel.get_config_file_content();
+                let config = await config_request();
+                let folders = config["folders"];
+                $("#folders_list").html(
+                    `
+                        ${folders.map(
+                            folder => `
+                                <div class='folders has-background-white rounded py-5 px-5 mb-4'>
+                                    <span class='fw-bold has-text-weight-bold'>Path:</span> ${folder.path}
+                                    <div>
+                                        <span class='fw-bold has-text-weight-bold'>Summary:</span>
+                                        ${folder.summary}
+                                    </div>
+                                </div>
+                            `
+                        ).join("")}   
+                    `
+                )
+            }
+            display_folders();
+        </script>
+    </body>
+</html>
