@@ -11,3 +11,7 @@ header {
 .folder {
     background-color: white;
 }
+
+.browse_button{
+    cursor: pointer;
+}
