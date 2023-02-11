@@ -96,10 +96,23 @@
                     return;
                 }
 
+                let config_request = await eel.get_config_file_content();
+                let config = await config_request();
+                let folders = config["folders"]; 
+                
+                // Ensure that there is no folders with the same paths
+                for (let i = 0; i < folders.length; i++){
+                    let folder = folders[i];
+                    if(folder.path == folder_path){
+                        alert("Folder already exists");
+                        return;
+                    }
+                }
+
                 await eel.add_new_folder(folder_path, folder_description);
                 $("#new_folder_form").find(".path").text("");
                 $("#new_folder_form").find("#folder_description").val("");
-                
+
                 display_folders();
             });
         </script>
