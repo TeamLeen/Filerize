@@ -7,8 +7,8 @@ __pycache__/
 venv/
 config.json
 env/
-env-win/
-env-linux/
+venv-win/
+venv-linux/
 
 # sanamorii
 
