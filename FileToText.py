@@ -54,9 +54,12 @@ class FileToText:
     @staticmethod
     def pptx_to_text():
         pass
+        
 
 
-print(FileToText.pdf_to_text("../test.pdf", True))
-# print(FileToText.pdf_to_text("./loremipsum.pdf", True))
+# print(FileToText.pdf_to_text("../test.pdf", True))
+print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
+# print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
+
 
 # print(FileToText.docx_to_text("./test_files/doc.docx"))
