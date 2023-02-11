@@ -34,10 +34,12 @@ def crawl(folder:fstructs.Folder = None):
     
     return folder, (fileCount, folderCount)
 
-def main():
-    folder = fstructs.Folder(path="D:\\music")
-    cfolder, count = crawl(folder=folder)
-    for f in cfolder.subfolders:
-        print(f.path)
 
-main()
+###debug
+# def main():
+#     folder = fstructs.Folder(path="D:\\music")
+#     cfolder, count = crawl(folder=folder)
+#     for f in cfolder.subfolders:
+#         print(f.path)
+
+# main()
