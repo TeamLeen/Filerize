@@ -18,7 +18,6 @@ args = parser.parse_args()
 def cli():
     pass
 
-@click.command()
 
 def main():
     if args.setup:
@@ -33,6 +32,8 @@ def RecursiveSearch(folder: str = None):
     for i in range(0, len(folder.files)):
 
         # do classification here
+
+        ftools.move()
         print(folder.files[i].name.encode('ascii', 'ignore'))
 
     for j in range(0, len(folder.subfolders)):
