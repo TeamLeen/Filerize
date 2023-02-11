@@ -3,3 +3,5 @@ openai
 PyPDF2
 docx2python
 aiohttp
+eel
+wxPython
