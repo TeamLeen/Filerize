@@ -1,8 +1,10 @@
 import argparse
+import click
 import os
 
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
+import config.setconfig as setconfig
 
 
 parser = argparse.ArgumentParser(prog="Filerize", 
@@ -13,10 +15,14 @@ parser.add_argument("-s", "--setup", action="store_true")
 args = parser.parse_args()
 
 
+def cli():
+    pass
+
+@click.command()
 
 def main():
     if args.setup:
-        print("setup")
+        setconfig.InitConfig()
     else:
         folder = fstructs.Folder(path = args.directory)
         RecursiveSearch(folder = folder)
