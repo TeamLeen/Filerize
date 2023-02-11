@@ -39,6 +39,9 @@ class Config:
     def add_label(self, label: str, summary: str):
         self.labels[label] = summary
 
+    def get_src_folder(self) -> str:
+        return self.src_folder_path
+
 
 if __name__ == '__main__':
     config = Config('config.example.json')

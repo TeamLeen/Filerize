@@ -4,6 +4,7 @@ import os
 
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
+from listen.filelistener import ListenForFiles
 
 
 parser = argparse.ArgumentParser(prog="Filerize", 
@@ -18,19 +19,21 @@ def main():
     folder = fstructs.Folder(path = args.directory)
     RecursiveSearch(folder = folder)
 
+    listener = ListenForFiles()
+    listener.run()
+
+
 def RecursiveSearch(folder: str = None):
     folder = ftools.crawl(folder=folder)
 
     for i in range(0, len(folder.files)):
 
         # do classification here
-
-        ftools.move()
-        print(folder.files[i].name.encode('ascii', 'ignore'))
+        print(folder.files[i].name)
 
     for j in range(0, len(folder.subfolders)):
-        print(f"\n====\nJumping folders -> {folder.subfolders[j].path.encode('ascii', 'ignore')}\n====\n")
         RecursiveSearch(folder = folder.subfolders[j])
-    print(f"\n --- complete one ---> {folder.path.encode('ascii', 'ignore')}")
+
+
 
 main()
