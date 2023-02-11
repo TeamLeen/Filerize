@@ -56,11 +56,22 @@
                         ${folders.map(
                             folder => `
                                 <div class='folders has-background-white rounded py-5 px-5 mb-4'>
-                                    <span class='fw-bold has-text-weight-bold'>Path:</span> ${folder.path}
+                                    <div class='columns'>
+                                        <div class='column'>
+                                            <span class='fw-bold has-text-weight-bold'>Path:</span> <span class='path_display'>${folder.path}</span>
+                                        </div>
+                                        <div>
+                                            <button class='button is-danger is-small mr-2 rounded delete_button'>
+                                                X
+                                            </button>
+                                        </div>
+                                    </div>
+
                                     <div>
                                         <span class='fw-bold has-text-weight-bold'>Summary:</span>
                                         ${folder.summary}
                                     </div>
+                                    
                                 </div>
                             `
                         ).join("")}   
@@ -114,6 +125,15 @@
                 $("#new_folder_form").find("#folder_description").val("");
 
                 display_folders();
+            });
+
+            $(document).on("click", ".delete_button", async function(){
+                let sure = confirm("Are you sure?");
+                if(sure){
+                    let folder_path = $(this).parent().parent().find(".path_display").text();
+                    await eel.delete_folder(folder_path);
+                    display_folders();
+                }
             });
         </script>
     </body>
