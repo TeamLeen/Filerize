@@ -2,7 +2,7 @@ import json
 
 
 class Config:
-    path: str = 'config.example.json'
+    path: str = r"D:\dev\hacknotts\23\Filerize\config.example.json"
     labels = {}
     src_folder_path = None
 

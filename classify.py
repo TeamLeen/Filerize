@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.environ.get('openai_token')
+openai.api_key = os.environ.get('openai_token').rstrip("\n")
 
 
 class FileClassifier:

@@ -1,20 +1,8 @@
 {
     "folders": [
         {
-            "path": "comp1005",
-            "summary": "C Programming"
-        },
-        {
-            "path": "comp1006",
-            "summary": "Assembly"
-        },
-        {
-            "path": "comp1007",
-            "summary": "Digital Logic"
-        },
-        {
-            "path": "comp1001",
-            "summary": "Discrete Maths"
+            "path": "",
+            "summary": ""
         }
     ],
     "src_folder_path": "",
