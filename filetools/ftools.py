@@ -8,7 +8,7 @@ else:
     import filetools.fstructs as fstructs
 
 
-def crawl(folder:fstructs.Folder = None):
+def crawl(folder:fstructs.Folder = None) -> fstructs.Folder:
 
     fileCount = 0
     folderCount = 0
@@ -30,10 +30,10 @@ def crawl(folder:fstructs.Folder = None):
             folder.subfolders.append(subfolder)
             folderCount += 1
     
-    return folder, (fileCount, folderCount)
+    return folder
 
 
-def move(src: fstructs.File = None, dst: str = None):
+def move(src: fstructs.File = None, dst: str = None) -> None:
     """ UHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh """
 
     srcPath = src.path
