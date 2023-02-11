@@ -10,7 +10,7 @@ import filetools.fstructs as fstructs
 import filetools.ftools as ftools
 from classify import FileClassifier
 from config import Config
-from FileToText import FileToText
+from filetools.FileToText import FileToText
 
 
 parser = argparse.ArgumentParser(prog="Filerize",
