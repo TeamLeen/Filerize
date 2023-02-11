@@ -1,5 +1,9 @@
 import threading
-from listen.filelistener import ListenForFiles
+from listener.filemonitor import ListenForFiles
+import logging
+import sys
+
+
 
 def listen_daemon():
     listen = ListenForFiles(r"D:\dev\hacknotts\23\Filerize\test_files")

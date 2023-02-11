@@ -2,12 +2,15 @@ import argparse
 import asyncio
 import json
 import os
-
+import sys
 import threading
+import logging
+
 
 import classify
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
+from listen.filelistener import ListenForFiles
 from classify import FileClassifier
 from config import Config
 from filetools.FileToText import FileToText
@@ -17,7 +20,15 @@ parser = argparse.ArgumentParser(prog="Filerize",
                                  description="Document sorter using GPT-3",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
 parser.add_argument("directory", type=str)
+parser.add_argument("-v", "--verbose", action="store_true")
 args = parser.parse_args()
+
+if args.verbose: logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
+
+def listen_daemon():
+    listen = ListenForFiles(r"D:\dev\hacknotts\23\Filerize\test_files")
+    listen.run()
 
 async def label_folder(folder: fstructs.Folder):
     files = [file for file in folder.files if file.ext == 'pdf']
