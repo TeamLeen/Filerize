@@ -5,7 +5,6 @@ __pycache__/
 *$py.class
 *.pyc
 venv/
-config.json
 env/
 venv-win/
 venv-linux/
