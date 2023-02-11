@@ -1,6 +1,8 @@
+import asyncio
 import os
 
 import openai
+from aiohttp import ClientSession
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,39 +18,41 @@ Returns the chosen label
 """
 
 
-def classify(text: str, labels: dict[str, str]) -> str | None:
-    text = text.replace('\n', ' ')
-    labels = labels.copy()
-    for l in labels:
-        labels[l] = labels[l].strip()
+async def classify(text: str, labels: dict[str, str]) -> str | None:
+    async with ClientSession() as session:
+        openai.aiosession.set(session)
+        text = text.replace('\n', ' ')
+        labels = labels.copy()
+        for l in labels:
+            labels[l] = labels[l].strip()
 
-    summaries = [s.strip() for s in labels.values()]
+        summaries = [s.strip() for s in labels.values()]
 
-    prompt = f"Classify the text into one of the following categories: {', '.join(labels.values())}\n\n" \
-        f"Text: \n{text}"
+        prompt = f"Classify the text into one of the following categories: {', '.join(labels.values())}\n\n" \
+            f"Text: \n{text}"
 
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        temperature=0,
-        max_tokens=60,
-        top_p=1.0,
-        frequency_penalty=0.0,
-        presence_penalty=0.0
-    )
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=0,
+            max_tokens=60,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0
+        )
 
-    try:
-        # TODO: get rid of the linear search
-        cat = response.get('choices')[0].text.strip()
-        for k, v in labels.items():
-            if cat.find(v) != -1:
-                return k
-        return None
-    except (KeyError, IndexError):
-        return None
+        try:
+            # TODO: get rid of the linear search
+            cat = response.get('choices')[0].text.strip()
+            for k, v in labels.items():
+                if cat.find(v) != -1:
+                    return k
+            return None
+        except (KeyError, IndexError):
+            return None
 
+async def main():
 
-if __name__ == '__main__':
     # TEST FILES
     labels = {
         'comp1005': 'C',
@@ -62,10 +66,19 @@ if __name__ == '__main__':
         # 'comp1008': 'Artifitial Intelligence'
     }
 
+    loop = asyncio.get_event_loop()
+
     # TODO: Async requests
+    tasks = []
     for i in range(1, 4):
         with open(f'test_files/{i}.txt') as f:
-            print(classify(f.read(), labels))
+            tasks.append(loop.create_task(classify(f.read(), labels)))
+
+    for task in tasks:
+        print(await task)
 
     text = '''
     '''
+
+if __name__ == '__main__':
+    asyncio.run(main())

@@ -1,5 +1,6 @@
-import json
 import argparse
+import asyncio
+import json
 
 import classify
 import filetools.fstructs as fstructs
@@ -25,7 +26,7 @@ def main():
     test_pdf: str = FileToText.pdf_to_text(
         './test_files/1007_cw.pdf', CUT_STR=True)
     # Classify text
-    print(f"Label for test pdf: {classify.classify(test_pdf, labels)}")
+    print(f"Label for test pdf: {await classify.classify(test_pdf, labels)}")
 
 
-main()
+asyncio.run(main())
