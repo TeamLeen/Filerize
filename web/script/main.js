@@ -31,6 +31,13 @@ async function display_folders(){
     )
 }
 
+
+async function display_path(){
+    let request = await eel.get_source_folder_path()
+    let value = await request();
+    $("#source_path").text(value);
+} 
+
 $(".folder_select").click(async e => {
     let request = await eel.choose_folder()
     let value = await request();
@@ -87,7 +94,15 @@ $(document).on("click", ".delete_button", async function(){
     }
 });
 
+$("#source_folder_form").submit(async function(e){
+    e.preventDefault();
+    let path = $("#source_folder_form").find("#source_path").text();
+    await eel.set_source_folder_path(path);
+    display_path();
+    alert("Source folder changed");
+});
 
 $(document).ready(function(){
     display_folders();
+    display_path();
 });
