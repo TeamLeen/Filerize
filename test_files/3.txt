@@ -1,90 +1,30 @@
-Constructors
-Methods called to initialise
-new objects
-4
-Each Object contains data
-public class MyClass
-{
-protected String myText;
-} 5
-Private data – label it private or protected
-(more later on what these do)
-‘Getters and setters’
-public class MyClass
-{
-protected String myText;
-public void setMyText(String str)
-{
-myText = str;
-}
-public String getMyText()
-{
-return myText;
-}
-} 6
-‘Setter’ : A method which
-allows us to set the value of
-the data in the object
-‘Getter’ : A method which
-allows us to get the current
-value of the data in the object
-Private data – label it private or protected
-(more later on what these do)
-Main() creates and object and uses it
-public class MyClass
-{
-protected String myText;
-public void setMyText(String str)
-{
-myText = str;
-}
-public String getMyText()
-{
-return myText;
-}
-public static void main(String[] args)
-{
-MyClass object = new MyClass();
-object.setMyText("Test");
-System.out.println(object.getMyText());
-}
-} 7
-Static function (main)
-Creates a new object
-Uses the methods on the
-object
-Note: We could put the main()
-in any class!
-‘Setter’ : A method which
-allows us to set the value of
-the data in the object
-‘Getter’ : A method which
-allows us to get the current
-value of the data in the object
-Private data – label it private or protected
-(more later on what these do)
-Extending this...
-• We need to understand some more details now
-• How can we initialise objects automatically,
-without an extra function call, avoiding:
-MyClass object = new MyClass();
-object.setMyText("Test");
-• How can we access the data inside the current
-object from a method acting on that object
-8
-Constructors – object initialisation
-• It is often useful to be able to run some code whenever an object is
-created, e.g. to initialise some member variables/data
-• Create a constructor to do this
-– A function which will automatically be called when object is created
-• This is a function in the class which:
-– Has the same name as the class
-– Has no return type (not void!)
-– Is NOT static
-• e.g. for the class called MyClass:
-// Constructor - no return type! Same name as class.
-public MyClass()
-{
-myText = "default";
-}
-• This is a ‘default constructor’: no parameters needed 
+Question 1 This question is about Logic and Set Theory.
+a) Use a truth table to prove that (P ∨ ¬R) ⇔ (Q ⇒ ⊥) is equivalent to
+(P ⇒ ¬Q) ∧ (Q ⇒ R) ∧ (R ⇒ (¬Q ⇒ P )). [6 marks]
+As long as the columns for both relevant formulas are present and
+clearly marked, it is a valid truth table. So you will get full marks as
+long as the columns for (P ∨ ¬R) ⇔ (Q ⇒ ⊥) and (P ⇒ ¬Q) ∧ (Q ⇒
+R) ∧ (R ⇒ (¬Q ⇒ P )) match the ones provided below. Correct an-
+swers may have more (e.g. splitting R ⇒ (¬Q ⇒ P ) into R and
+¬Q ⇒ P ) or less columns than the answer I provide below.
+P Q R P ∨¬R Q⇒⊥ . . .⇔. . . P ⇒¬Q Q⇒R R⇒(¬Q⇒P ) . . .∧. . .∧. . .
+⊥ ⊥ ⊥ > > > > > > >
+⊥ ⊥ > ⊥ > ⊥ > > ⊥ ⊥
+⊥ > ⊥ > ⊥ ⊥ > ⊥ > ⊥
+⊥ > > ⊥ ⊥ > > > > >
+> ⊥ ⊥ > > > > > > >
+> ⊥ > > > > > > > >
+> > ⊥ > ⊥ ⊥ ⊥ ⊥ > ⊥
+> > > > ⊥ ⊥ ⊥ > > ⊥
+b) Let A = {a, b, 1, 2}, B = {a, b, c} and C = {1, 2, 3}.
+(i) What is the powerset of A ∩ B?
+Since A ∩ B = {a, b}, its powerset is: {∅, {a}, {b}, {a, b}}.
+(ii) Draw an Euler diagram of A, B and C.
+See below. The Euler diagram need not be rectangular, but may
+only have the 4 areas displayed.
+(iii) Draw a Venn diagram of A, B and C.
+(iv) Let D = P(A \ B) × C. What is |D|?
+|D| = |P(A \ B)| · |C| = 4 · 3 = 12.
+(v) Using A, B, C, and the basic set operations (∪, ∩, \, P, ×) con-
+struct {(c, 3)}.
+(B \ A) × (C \ A). [Or: (B × C) \ ((A × (A ∪ C)) ∪ ((A ∪ B) × A
