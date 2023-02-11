@@ -37,7 +37,8 @@
                         </div>
                         <div class="mt-4">
                             <label class="label" for="folder_description">Folder Description</label>
-                            <textarea class="control textarea" name="" id="" cols="10" rows="5"></textarea>
+                            <textarea class="control textarea" name="" id="folder_description" cols="10" rows="5"></textarea>
+                            <div class="has-text-grey">Write a short description of what this folder should contain.</div>
                         </div>
                         <button class="button is-success mt-5">Add</button>
                     </form>
@@ -77,6 +78,16 @@
                     path_element = $(e.target).siblings(".path");
                 }
                 path_element.text(value);
+            });
+
+
+            $("#new_folder_form").submit(async (e) => {
+                e.preventDefault();
+                let folder_path = $("#new_folder_form").find(".path").text();
+                let folder_description = $("#new_folder_form").find("#folder_description").val();
+                // TODO: Validate 
+                await eel.add_new_folder(folder_path, folder_description);
+                display_folders();
             });
         </script>
     </body>
