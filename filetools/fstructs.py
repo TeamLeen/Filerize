@@ -2,19 +2,33 @@
 # @sanamorii - jian
 
 import json
+from hashlib import sha256
 
 
 class File:
     """ path argument requires \\ \\ not / """
     def __init__(self, path) -> None:
         self.path = path 
-        self.name = None
-        self.ext = None
-        self.hash = None
+        self.name, self.ext = self.ParsePath()
+        self.hash = self.Hash()
+
+        
+        
     
-    def parsePath(self) -> None:
-        self.name = self.path.split("\\")[-1]
-        self.ext = self.path.split(".")[-1]
+    def ParsePath(self) -> None:
+        return self.path.split("\\")[-1], self.path.split(".")[-1]
+
+    def Hash(self):
+        BUF_SIZE = 65536
+        hash = sha256()
+        with open(self.path, "rb") as f:
+            while True:
+                data = f.read(BUF_SIZE)
+                if not data:
+                    break
+                hash.update(data)
+        return hash
+        
 
 class Folder:
     def __init__(self, path) -> None:
