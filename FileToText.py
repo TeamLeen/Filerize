@@ -1,5 +1,7 @@
 from PyPDF2 import PdfReader
 from docx2python import docx2python
+import aspose.slides as slides
+
 
 
 
@@ -52,14 +54,22 @@ class FileToText:
 
 
     @staticmethod
-    def pptx_to_text():
-        pass
+    def pptx_to_text(path, CUT_STR=False, max_output_length=max_output_length):
+        file_text = slides.PresentationFactory().get_presentation_text(f"{path}", slides.TextExtractionArrangingMode.UNARRANGED)
+
+        #removes multiple whitespaces
+        file_text = " ".join(file_text.split())
+
+        if CUT_STR:
+            file_text = file_text[:max_output_length]
+
+
         
+if __name__ == "__main__":
+    pass
+    # print(FileToText.pdf_to_text("../test.pdf", True))
+    # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf", CUT_STR=True, max_output_length=100))
+    # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
 
 
-# print(FileToText.pdf_to_text("../test.pdf", True))
-print(FileToText.pdf_to_text("./test_files/1007_cw.pdf", CUT_STR=True, max_output_length=100))
-# print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
-
-
-# print(FileToText.docx_to_text("./test_files/doc.docx"))
+    # print(FileToText.docx_to_text("./test_files/doc.docx"))
