@@ -10,7 +10,8 @@ class File(object):
     def __init__(self, path) -> None:
         self.path = path 
         self.name, self.ext = self.ParsePath()
-        self.hash = self.Hash()
+        # self.hash = self.Hash()
+        self.hash = None
 
     def ParsePath(self) -> None:
         return self.path.split("\\")[-1], self.path.split(".")[-1]
