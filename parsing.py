@@ -10,8 +10,8 @@ parser = argparse.ArgumentParser(prog="Filerize",
                                  description="Document sorter using GPT-3",
                                  epilog="TEAMLEAN @ NO COPYRIGHT 2023 :^)")
 parser.add_argument("directory", type=str)
-parser.add_argument("-s", "--setup", action="store_true")
 args = parser.parse_args()
+
 
 
 def main():
