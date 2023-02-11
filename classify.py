@@ -62,7 +62,7 @@ Classifies a given text with into a set of categories
 """
 
 
-def classify(text: str, categories: list[str]):
+def classify(text: str, categories: list[str]) -> str | None:
     prompt = f"Classify the text into the following categories: {', '.join(categories)}\n\n" \
         f"Text: {text}"
     response = openai.Completion.create(
@@ -75,7 +75,11 @@ def classify(text: str, categories: list[str]):
         presence_penalty=0.0
     )
 
-    return response.get('choices')[0].text
+    try:
+        return response.get('choices')[0].text.strip()
+    except (KeyError, IndexError):
+        return None
 
 
-print(classify(text, categories))
+if __name__ == '__main__':
+    print(classify(text, categories))
