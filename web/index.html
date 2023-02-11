@@ -27,8 +27,13 @@
                     <form action="" id="new_folder_form">
                         <h3 class="title is-4">Add a new folder</h3>
                         <div>
-                            <label class="label" for="select_folder">Select Folder</label>
-                            <input class="control input" type="text" name="select_folder" id="select_folder">
+                            <label class="label">Select Folder</label>
+                            <div class="folder_select py-5 px-5 has-background-light rounded">
+                                <span class="py-3 px-3 has-background-white rounded browse_button">
+                                    Browse
+                                </span>
+                                <span class="path ml-4"></span>
+                            </div>
                         </div>
                         <div class="mt-4">
                             <label class="label" for="folder_description">Folder Description</label>
@@ -39,7 +44,7 @@
                 </div>
             </div>
         </main>
-        <script>
+        <script>            
             // TODO: allow to edit the folder
             async function display_folders(){
                 let config_request = await eel.get_config_file_content();
@@ -62,6 +67,17 @@
                 )
             }
             display_folders();
+
+            $(".folder_select").click(async e => {
+                let request = await eel.choose_folder()
+                let value = await request();
+
+                let path_element =  $(e.target).find(".path");
+                if (path_element.length == 0){
+                    path_element = $(e.target).siblings(".path");
+                }
+                path_element.text(value);
+            });
         </script>
     </body>
 </html>
