@@ -119,7 +119,7 @@ async def main():
         with open(f'test_files/{i}.txt') as f:
             tasks.append(loop.create_task(
                 FileClassifier.summarize(f.read(), max_chars=100))
-                )
+            )
 
     for task in tasks:
         print(await task)

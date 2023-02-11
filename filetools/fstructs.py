@@ -5,15 +5,18 @@ import json
 import os
 from hashlib import sha256
 
+
 class File(object):
     """ path argument requires \\ \\ not / """
+
     def __init__(self, path) -> None:
-        self.path = path 
+        self.path: str = path
         self.name, self.ext = self.ParsePath()
         # self.hash = self.Hash()
         self.hash = None
+        self.label: str | None = None
 
-    def ParsePath(self) -> None:
+    def ParsePath(self) -> tuple[str, str]:
         return self.path.split("\\")[-1], self.path.split(".")[-1]
 
     def Hash(self):
@@ -26,10 +29,10 @@ class File(object):
                     break
                 hash.update(data)
         return hash
-        
+
 
 class Folder(object):
     def __init__(self, path) -> None:
         self.path = path
-        self.files = []  # array of File classes
-        self.subfolders = []  # array of Folder classes
+        self.files: list[File] = []  # array of File classes
+        self.subfolders: list[Folder] = []  # array of Folder classes
