@@ -1,0 +1,37 @@
+01 Text Formatter — first steps
+In the first iteration of the program, which must be implemented in the supplied 01-format.s,
+you should implement a program that continuously reads in characters and prints them to the
+screen ensuring that the length of each line your program prints is below a specified limit. The line
+length is specified in the variable labelled width.
+You should write a program that repeatedly reads a character (from the keyboard) and then prints it
+out (to the features window) until the hash character (‘#’) is typed, at which point your program
+show quit.
+You should ensure that your program enforces the specified line length defined in the supplied
+variable, width. In other words, if width is 12, then after 12 characters are printed your program
+should print a new line character (ASCII code 10) before the thirteenth character is printed to force
+the text onto a new line. The program should then continue outputting characters on that line until
+12 characters have been output and so on... Appendix A contains sample input and output for
+this exercise.
+Some hints for completing this exercise:
+• Your program should work for any positive integer value of width greater than zero.
+• You will need to keep count of the number of characters that have been typed, and if width
+characters have already been printed then you will need to print a newline character to move to
+the next line.
+• As shown in the example, spaces count as characters.
+• The user may press the RETURN/ENTER key when typing, this should still cause the text to start
+again from the beginning of a new line — remember you can have up to width characters on a
+line. If the RETURN key is pressed, then SWI 1 will return 10 in R0.
+• You might find it helpful to print out a ‘ruler’ at the start of the program to help you check that
+the text is printed to the correct length — define a string containing width characters (e.g. for a
+width of 12, define a string such as ‘123456789012’) and print it out at the start of your
+program. This will easily help you see if there are move characters printed per line (since the line
+will be longer than the ruler :)). Remember, to remove this ruler before submitting to the
+pipeline.
+Assessment Criteria
+The gitlab pipeline will mark your program and give you feedback on how well it works.
+Specifically, 10 marks are awarded for this iteration as follows:
+• 2 marks are available for the program outputting the original text input
+• 2 marks are available for the program breaking the text into multiple lines with no extraneous
+output
+• 4 marks are available for the program correctly breaking the text into multiple lines
+• 2 marks are available for the program correctly resetting when the return key is pressed

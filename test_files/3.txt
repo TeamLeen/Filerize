@@ -1,0 +1,90 @@
+Constructors
+Methods called to initialise
+new objects
+4
+Each Object contains data
+public class MyClass
+{
+protected String myText;
+} 5
+Private data – label it private or protected
+(more later on what these do)
+‘Getters and setters’
+public class MyClass
+{
+protected String myText;
+public void setMyText(String str)
+{
+myText = str;
+}
+public String getMyText()
+{
+return myText;
+}
+} 6
+‘Setter’ : A method which
+allows us to set the value of
+the data in the object
+‘Getter’ : A method which
+allows us to get the current
+value of the data in the object
+Private data – label it private or protected
+(more later on what these do)
+Main() creates and object and uses it
+public class MyClass
+{
+protected String myText;
+public void setMyText(String str)
+{
+myText = str;
+}
+public String getMyText()
+{
+return myText;
+}
+public static void main(String[] args)
+{
+MyClass object = new MyClass();
+object.setMyText("Test");
+System.out.println(object.getMyText());
+}
+} 7
+Static function (main)
+Creates a new object
+Uses the methods on the
+object
+Note: We could put the main()
+in any class!
+‘Setter’ : A method which
+allows us to set the value of
+the data in the object
+‘Getter’ : A method which
+allows us to get the current
+value of the data in the object
+Private data – label it private or protected
+(more later on what these do)
+Extending this...
+• We need to understand some more details now
+• How can we initialise objects automatically,
+without an extra function call, avoiding:
+MyClass object = new MyClass();
+object.setMyText("Test");
+• How can we access the data inside the current
+object from a method acting on that object
+8
+Constructors – object initialisation
+• It is often useful to be able to run some code whenever an object is
+created, e.g. to initialise some member variables/data
+• Create a constructor to do this
+– A function which will automatically be called when object is created
+• This is a function in the class which:
+– Has the same name as the class
+– Has no return type (not void!)
+– Is NOT static
+• e.g. for the class called MyClass:
+// Constructor - no return type! Same name as class.
+public MyClass()
+{
+myText = "default";
+}
+• This is a ‘default constructor’: no parameters needed 
