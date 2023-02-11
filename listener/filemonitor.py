@@ -13,10 +13,10 @@ class Handler(FileSystemEventHandler):
   
         elif event.event_type == 'created':
             # Event is created, you can process it now
-            print("Watchdog received created event - % s." % event.src_path)
+            logging.info("Watchdog received created event - % s." % event.src_path)
         elif event.event_type == 'modified':
             # Event is modified, you can process it now
-            print("Watchdog received modified event - % s." % event.src_path)
+            logging.info("Watchdog received modified event - % s." % event.src_path)
 
 class ListenForFiles:
   
@@ -25,7 +25,9 @@ class ListenForFiles:
         self.directory = dir
   
     def run(self):
-        print("running")
+        
+        logging.info("FileMonitor Daemon has started")
+
         event_handler = Handler()
         self.observer.schedule(event_handler, path=self.directory, recursive = True)
         self.observer.start()
