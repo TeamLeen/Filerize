@@ -31,7 +31,8 @@ async def main():
         test_pdf: str = FileToText.pdf_to_text(
             f'./test_files/{file}', CUT_STR=True)
         # Classify text
-        tasks[file] = asyncio.create_task(FileClassifier.classify(test_pdf, labels))
+        tasks[file] = asyncio.create_task(
+            FileClassifier.classify(test_pdf, labels))
 
     for file in tasks:
         print(f"Label for {file}: {await tasks[file]}")

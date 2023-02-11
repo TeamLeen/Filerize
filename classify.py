@@ -9,19 +9,6 @@ load_dotenv()
 openai.api_key = os.environ.get('openai_token')
 
 
-# TODO: tweak
-PRE_PROMPT = "Classify the text into one of the following categories:"
-
-GPT_ARGS = {
-    'model': "text-davinci-003",
-    'temperature': 0,
-    'max_tokens': 60,
-    'top_p': 1.0,
-    'frequency_penalty': 0.0,
-    'presence_penalty': 0.0
-}
-
-
 class FileClassifier:
 
     @staticmethod
@@ -33,6 +20,18 @@ class FileClassifier:
         :param str text: The text to be classified
         :param dict[str, str] labels: a dict of labels + summaries 
         """
+        # TODO: tweak
+        PRE_PROMPT = "Classify the text into one of the following categories:"
+
+        GPT_ARGS = {
+            'model': 'text-davinci-003',
+            'temperature': 0,
+            'max_tokens': 60,
+            'top_p': 1.0,
+            'frequency_penalty': 0.0,
+            'presence_penalty': 0.0
+        }
+
         async with ClientSession() as session:
             openai.aiosession.set(session)
             text = text.replace('\n', ' ')
@@ -47,7 +46,7 @@ class FileClassifier:
 
             response = openai.Completion.create(
                 prompt=prompt,
-                *GPT_ARGS,
+                **GPT_ARGS,
             )
 
             try:
@@ -57,6 +56,36 @@ class FileClassifier:
                     if cat.find(v) != -1:
                         return k
                 return None
+            except (KeyError, IndexError):
+                return None
+
+    @staticmethod
+    async def summarize(text):
+        # TODO: tweak
+        PRE_PROMPT = "Write a short summary for the following text:"
+
+        GPT_ARGS = {
+            'model': 'text-davinci-003',
+            'temperature': 0,
+            'max_tokens': 60,
+            'top_p': 1.0,
+            'frequency_penalty': 0.0,
+            'presence_penalty': 0.0
+        }
+
+        async with ClientSession() as session:
+            openai.aiosession.set(session)
+
+            prompt = f"{PRE_PROMPT}\n\n" \
+                f"Text: \n{text}"
+
+            response = openai.Completion.create(
+                prompt=prompt,
+                **GPT_ARGS
+            )
+
+            try:
+                return response.get('choices')[0].text.strip()
             except (KeyError, IndexError):
                 return None
 
@@ -79,16 +108,14 @@ async def main():
     loop = asyncio.get_event_loop()
 
     tasks = []
-    for i in range(1, 4):
+    for i in range(1, 2):
         with open(f'test_files/{i}.txt') as f:
             tasks.append(loop.create_task(
-                FileClassifier.classify(f.read(), labels)))
+                FileClassifier.summarize(f.read())))
 
     for task in tasks:
         print(await task)
 
-    text = '''
-    '''
 
 if __name__ == '__main__':
     asyncio.run(main())
