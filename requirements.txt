@@ -2,3 +2,4 @@ python-dotenv
 openai
 PyPDF2
 docx2python
+aiohttp
