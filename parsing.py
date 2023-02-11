@@ -24,13 +24,13 @@ async def RecursiveSearch(folder: fstructs.Folder = None, visit=None):
 
     for file in folder.files:
         # ftools.move()
-        print(file.name.encode('ascii', 'ignore'))
+        print(file.name)
 
     for subfolder in folder.subfolders:
         print(
-            f"\n====\nJumping folders -> {subfolder.path.encode('ascii', 'ignore')}\n====\n")
+            f"\n====\nJumping folders -> {subfolder.path}\n====\n")
         await RecursiveSearch(folder=subfolder, visit=visit)
-    print(f"\n --- complete one ---> {folder.path.encode('ascii', 'ignore')}")
+    print(f"\n --- complete one ---> {folder.path}")
 
 
 # main()

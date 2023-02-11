@@ -23,7 +23,8 @@ class ListenForFiles:
         self.observer = Observer()
         self.directory = None
     
-    def set_directory()
+    def set_directory(self, dir):
+        self.directory = dir
   
     def run(self):
         print("running")
