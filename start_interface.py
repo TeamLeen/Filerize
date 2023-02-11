@@ -42,5 +42,21 @@ def delete_folder(folder_path):
 
     return True
 
+@eel.expose
+def get_source_folder_path():
+    with open("./config.json", "r") as config_file:
+        config_json = json.loads(config_file.read())
+    return config_json["src_folder_path"]
+
+@eel.expose
+def set_source_folder_path(new_path):
+    with open("./config.json", "r") as config_file:
+        config_json = json.loads(config_file.read())
+    
+    config_json["src_folder_path"] = new_path
+
+    with open("./config.json", "w") as config_file:
+        config_file.write(json.dumps(config_json))
+    
 eel.init('web')
 eel.start('index.html', size=(1078, 800))

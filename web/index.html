@@ -17,7 +17,22 @@
             </h1>
         </header>
         <main class="container">
-            <h2 class="title is-3 mt-5">Folders</h2>
+            <h2 class="title is-3 mt-5">Source Folder</h2>
+            <div class="has-background-light rounded py-5 px-5">
+                <form action="" id="source_folder_form">
+                    <div>
+                        <label class="label">Select Folder</label>
+                        <div class="folder_select py-5 px-5 has-background-white rounded">
+                            <span class="py-3 px-3 has-background-light rounded browse_button">
+                                Browse
+                            </span>
+                            <span class="path ml-4" id="source_path"></span>
+                        </div>
+                    </div>
+                    <button class="button is-success mt-5">Submit</button>
+                </form>
+            </div>
+            <h2 class="title is-3 mt-5">Destination Folders</h2>
             <div class="has-background-light py-5 px-5 rounded">
                 <div id="folders_list">
 
