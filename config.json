@@ -1,19 +1,19 @@
 {
     "folders": [
         {
-            "path": "testing\\dst\\comp1005",
+            "path": "testing/dst/comp1005",
             "summary": "C Programming"
         },
         {
-            "path": "testing\\dst\\comp1006",
+            "path": "testing/dst/comp1006",
             "summary": "Assembly"
         },
         {
-            "path": "testing\\dst\\comp1007",
+            "path": "testing/dst/comp1007",
             "summary": "Digital Logic"
         },
         {
-            "path": "testing\\dst\\comp1001",
+            "path": "testing/dst/comp1001",
             "summary": "Discrete Maths"
         }
     ]
