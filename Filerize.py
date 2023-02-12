@@ -5,15 +5,13 @@ import filetools.ftools as ftools
 from classify import FileClassifier
 from config.config import Config
 from filetools.FileToText import FileToText
-from listener.filemonitor import ListenForFiles
 
 
-def listen_daemon():
-    listen = ListenForFiles(r"D:\dev\hacknotts\23\Filerize\test_files")
-    listen.run()
+def init(path):
+    pass
 
 
-async def label_folder(folder: fstructs.Folder):
+async def label_files(folder: fstructs.Folder):
     files = [file for file in folder.files if file.ext == 'pdf']
     tasks: dict[fstructs.File, asyncio.Task] = {}
     for file in files:
@@ -28,12 +26,14 @@ async def label_folder(folder: fstructs.Folder):
         file.label = await tasks[file]
 
 
-async def sort(path):
+async def label_file(path:str):
+    text:str = FileToText.docx_to_text(
+        path=path,
+        CUT_STR=True, max_output_length=1000)
+    return await FileClassifier.classify(text, Config.labels)
 
+
+async def sort(path: str):
     folder = fstructs.Folder(path=path)
-    await ftools.recursive_visit(folder=folder, visit=label_folder)
-
+    await ftools.recursive_visit(folder=folder, visit=label_files)
     ftools.recursive_move(folder=folder)
-
-async def listen():
-    pass

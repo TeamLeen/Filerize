@@ -1,8 +1,13 @@
 # import time module, Observer, FileSystemEventHandler
 import time
 import logging
+import asyncio
+
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+
+from filetools.ftools import move
+from Filerize import label_file
   
 class Handler(FileSystemEventHandler):
   
@@ -19,7 +24,10 @@ class Handler(FileSystemEventHandler):
         #     logging.info("Watchdog received modified event - % s." % event.src_path)
 
         if event.event_type == 'created' or event.event_type == 'modified':
-            print(event.src_path)
+            label = asyncio.run(label_file(path=event.src_path))
+            move(src=event.src_path, dst_root=label, filename=event.src_path.split("\\")[-1])
+            print("moved")
+                        
 
 class ListenForFiles:
   
