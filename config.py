@@ -5,22 +5,20 @@ template = {
     "folders": [],
 }
 
-class Config:
-    path: str = None
-    labels = {}
-    src_folder_path = None
-    
+DEFAULT_CONFIG_PATH = 'config.json'
+DEFAULT_SOURCE_FOLDER = '.'
 
+
+class Config:
+    path: str = DEFAULT_CONFIG_PATH
+    labels = {}
 
     @classmethod
     def load(cls, cfg_path) -> None:
-
         cls.path = os.path.abspath(cfg_path)
 
         with open(file=cls.path, encoding="utf-8", mode="r") as f:
             parsed = json.load(f)
-
-            cls.src_folder_path = os.path.abspath(parsed['src_folder_path'])
 
             # Convert list of kv pairs to dict
             for folder in parsed['folders']:
@@ -30,8 +28,6 @@ class Config:
     def save(cls) -> None:
         # Convert dict to list of kv pairs
         buffer = {}
-        buffer['src_folder_path'] = os.path.abspath(
-            cls.src_folder_path)  # redunant but might as well
 
         buffer['folder'] = []
         for label in cls.labels:
@@ -49,10 +45,6 @@ class Config:
     #     cls.path = os.path.abspath(path=path)
     #     with open(file=cls.path, mode="w+") as f:
             
-
-    @classmethod
-    def set_src_folder(cls, path: str) -> None:
-        cls.src_folder_path = os.path.abspath(path)
 
     @classmethod
     def add_label(cls, label: str, summary: str) -> None:

@@ -24,7 +24,6 @@ def main():
     elif os.path.exists('config.example.json'):  # fallback
         Config.load('config.example.json')
     else:
-<<<<<<< HEAD
         print("No config file detected...\nInitialising & creating config file...")
         print("Input destination directory paths & labels")
         c = 0
@@ -48,25 +47,10 @@ def main():
         
             # Config.add_label(label=pth, summary=sum)
         print("Creating config...")
-            
-        
     
-=======
-        print("No config file detected...\nInitialising & creating config file.")
-
-        while True:
-            pth = sum = None
-            pth = str(input("Enter folder path: "))
-            sum = str(input("Enter folder summary: "))
-
-            if pth == "q" or sum == "q":
-                break
-
-            # Config.add_label(label=pth, summary=sum)
 
     asyncio.run(api.init(args))
 
->>>>>>> f0170837e8b1fea47378ee02ffe6451e08bb0139
 
 if __name__ == "__main__":
     main()
