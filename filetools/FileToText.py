@@ -11,7 +11,19 @@ class FileToText:
     max_output_length = 1000
 
     @staticmethod
+    def validate_path(path, correct_extension):
+        # usage: give extension without the dot
+        print(f"path to be checked: {path}")
+        given_extension = path.split(".")[-1] 
+        if given_extension == correct_extension:
+            return
+        
+        else:
+            raise Exception(f"The file extension used is not correct!\n Given extension: {given_extension}\n Expected: {correct_extension}\nIn: {path}")
+
+    @staticmethod
     def pdf_to_text(path, CUT_STR=False, max_output_length=max_output_length, GET_PAGES=True, pages_to_get=1,):
+        FileToText.validate_path(path, "pdf")
         DEBUG = True
         file_text = ""
         # note: only works with pdfs where text is not an image
@@ -39,6 +51,7 @@ class FileToText:
     
     @staticmethod
     def docx_to_text(path, CUT_STR=False, max_output_length=max_output_length):
+        FileToText.validate_path(path, "docx")
         file_text = ""
 
         with docx2python(f"{path}") as docx_content:
@@ -55,6 +68,7 @@ class FileToText:
 
     @staticmethod
     def pptx_to_text(path, CUT_STR=False, max_output_length=max_output_length):
+        FileToText.validate_path(path, "pptx")
         file_text = ""
         presentation = Presentation(f"{path}")
         text_runs = []
@@ -73,13 +87,6 @@ class FileToText:
             file_text = file_text[:max_output_length]
 
         return file_text
-    
-    
-    # sanamorii.github.io
-    @staticmethod
-    def epub_to_text():
-        pass
-    # end
 
     
     @staticmethod
@@ -108,6 +115,7 @@ class FileToText:
         
 if __name__ == "__main__":
     print("FileToText.py running...")
+    # FileToText.validate_path("something/something/file.dpdf", "pdf")
     # print(FileToText.pdf_to_text("../test.pdf", True))
     # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf", CUT_STR=True, max_output_length=100))
     # print(FileToText.pdf_to_text("./test_files/1007_cw.pdf"))
@@ -116,5 +124,5 @@ if __name__ == "__main__":
 
     # print(FileToText.docx_to_text("./test_files/doc.docx"))
 
-    FileToText.metadata_from_image("./test_files/quote_picture.jpeg")
-    FileToText.metadata_from_image("./test_files/exif_test.jpg")
+    # FileToText.metadata_from_image("./test_files/quote_picture.jpeg")
+    # FileToText.metadata_from_image("./test_files/exif_test.jpg")
