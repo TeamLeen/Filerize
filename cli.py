@@ -37,14 +37,19 @@ def cli(verbose):
     """FilerizeCLI @ TeamLEAN - A Document Sorter using GPT-3"""
     if verbose: logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+
 @cli.command("start", help="run config (on first run), sort, and daemon in order")
 @_add_options(_common_options)
 @click.help_option("-h", "--help")
 @click.pass_context
 def cli_start(ctx:click.Context, **args):
-    check_directory(args['directory'])
-    check_config()
-    asyncio.run(Filerize.sort(path=args['directory']))
+    folder = Filerize.init(args['directory'])
+    Filerize.sort(folder=folder)
+    
+    
+    # check_directory(args['directory'])
+    # check_config()
+    # asyncio.run(Filerize.sort(path=args['directory']))
     # run continous behaviour
     
 
@@ -54,9 +59,8 @@ def cli_start(ctx:click.Context, **args):
 @click.help_option("-h", "--help")
 @click.pass_context
 def cli_sort(ctx:click.Context, **args):
-    check_directory(args['directory'])
-    check_config()
-    asyncio.run(Filerize.sort(path=args['directory']))
+    folder = Filerize.init(args['directory'])
+    Filerize.sort(folder=folder)
     
 @cli.command("listen", help="start a file listen daemon for a given directory")
 @_add_options(_common_options)
