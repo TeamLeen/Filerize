@@ -23,18 +23,29 @@ def main():
     elif os.path.exists('config.example.json'):  # fallback
         Config.load('config.example.json')
     else:
-        print("No config file detected...\nInitialising & creating config file.")
-        
+        print("No config file detected...\nInitialising & creating config file...")
+        print("Input destination directory paths & labels")
+        c = 0
         while True:
             pth = sum = None
-            pth = str(input("Enter folder path: "))
-            sum = str(input("Enter folder summary: "))
             
-            if pth == "q" or sum == "q":
+            pth = str(input(f"Enter directory {c+1}: "))
+            if not os.path.exists(pth) and pth != "q":
+                print("Given directory does not exist")
+                continue
+            elif pth == "q":
                 break
+            
+            sum = str(input(f"Enter directory {c+1} summary: "))
+            if sum == "q":
+                break
+            
+            c+=1
+            print("\n", end="")
+            
         
             # Config.add_label(label=pth, summary=sum)
-            
+        print("Creating config...")
             
         
     
