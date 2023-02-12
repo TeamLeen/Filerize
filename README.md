@@ -17,3 +17,15 @@ Specify the names of your folders in config and it'll categorize your documents 
 ## Configurating
 Example configuration file in `config.example.json`
 
+### Contributers
+[gldanoob](https://github.com/gldanoob)  
+GPT-3 API & File classification
+
+[Basel Akasha](https://github.com/baselakasha)  
+GPT-3 API & GUI front end
+
+[Jian](https://github.com/sanamorii)  
+Backend: (File moving & crawling, file event handling) & CLI front end  
+
+[Paulius Dovidaitis](https://github.com/Dovidaitis)  
+Backend: (Document & file Parsing) & Documentation: (DevPost, Video, Demo)
