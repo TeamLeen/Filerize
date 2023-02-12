@@ -8,6 +8,7 @@ venv/
 env/
 venv-win/
 venv-linux/
+config.json
 
 # sanamorii
 
