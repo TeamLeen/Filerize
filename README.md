@@ -12,10 +12,13 @@ Specify the names of your folders in config and it'll categorize your documents 
 
 ## Usage
 ### CLI
-`py main.py [-h] [-v] target_directory`
+Quick start: 
+`py cli.py start <target_directory>`
 
 ## Configurating
-Example configuration file in `config.example.json`
+Edit `config.json` after running the CLI for the first time
+
+Example configuration file: `config.example.json`
 
 ### Contributers
 [gldanoob](https://github.com/gldanoob)  
