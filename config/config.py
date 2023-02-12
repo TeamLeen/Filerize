@@ -58,13 +58,26 @@ class Config:
     @classmethod
     def add_label(cls, label: str, summary: str) -> None:
         cls.labels[label] = summary
+    
+    @classmethod
+    def delete_label(cls, label: str) -> bool:
+        if label in cls.labels:
+            del cls.labels[label]
+            return True
+        return False
         
     @classmethod
     def set_src_dir(cls, path) -> None:
         cls.src_dir = path
-        
+    
+    @classmethod
     def set_folder(cls, folder: fstructs.Folder) -> None:
         cls.folder = folder
+        
+    @classmethod
+    def print_config(cls):
+        for key, value in cls.labels.items():
+            print("{:<32} | {:<32}".format(f"Path: {key}", f"Summary: {value}"))
 
 
 # if __name__ == '__main__':
