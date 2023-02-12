@@ -41,7 +41,7 @@ def full_crawl(folder: fstructs.Folder = None) -> None:
 
 
 async def label_all(folder: fstructs.Folder = None):
-    """ 
+    """
     Parent Function
 
     Give all included files found in tree a label according to GPT-3
@@ -55,7 +55,7 @@ async def label_files(folder: fstructs.Folder):
     """
     Child Function to label_all
 
-    Parse documents and classify them w/ labels provided by config 
+    Parse documents and classify them w/ labels provided by config
     """
 
     CONV_OPT = {
@@ -68,19 +68,11 @@ async def label_files(folder: fstructs.Folder):
     for file in folder.files:
         # PDF to text
         match file.ext:
-            case 'pdf':
-                test_pdf: str = FileToText.pdf_to_text(
-                    f'{file.path}', **CONV_OPT)
+            case 'pdf': text = FileToText.pdf_to_text(file.path, **CONV_OPT)
 
-            case 'docx':
-                test_pdf: str = FileToText.docx_to_text(
-                    f'{file.path}', **CONV_OPT
-                )
+            case 'docx': text = FileToText.docx_to_text(file.path, **CONV_OPT)
 
-            case 'pptx':
-                test_pdf: str = FileToText.pptx_to_text(
-                    f'{file.path}', **CONV_OPT
-                )
+            case 'pptx': text = FileToText.pptx_to_text(file.path, **CONV_OPT)
 
             case _:
                 # Skip file
@@ -88,7 +80,7 @@ async def label_files(folder: fstructs.Folder):
 
         # Classify text
         tasks[file] = asyncio.create_task(
-            FileClassifier.classify(test_pdf, Config.labels))
+            FileClassifier.classify(text, Config.labels))
 
     for file in tasks:
         file.label = await tasks[file]
@@ -105,20 +97,20 @@ async def label_file(path: str):
         "max_output_length": 1000
     }
     ext = os.path.basename(path).split(".")[-1]
-    if ext == 'pdf':
 
-        text: str = FileToText.pdf_to_text(
-            path, **CONV_OPT)
+    match ext:
+        case 'pdf':
+            text = FileToText.pdf_to_text(path, **CONV_OPT)
 
-    elif ext == 'docx':
-        text: str = FileToText.docx_to_text(
-            path, **CONV_OPT)
+        case 'docx':
+            text = FileToText.docx_to_text(path, **CONV_OPT)
 
-    elif ext == 'pptx':
-        text: str = FileToText.pptx_to_text(
-            path, **CONV_OPT)
+        case 'pptx':
+            text = FileToText.pptx_to_text(path, **CONV_OPT)
 
-        
+        case _:
+            return None
+
     return await FileClassifier.classify(text, Config.labels)
 
 
@@ -138,7 +130,8 @@ def move_all(folder: fstructs.Folder = None) -> None:
     Move all files found in given tree to assigned label in File object recursively
     """
     for file in folder.files:
-        move_single(src=file.path, dst_root=file.label, filename=file.name)
+        move_single(src=file.path, dst_root=file.label,
+                    filename=file.name)
 
     for subfolder in folder.subfolders:
         move_all(folder=subfolder)
