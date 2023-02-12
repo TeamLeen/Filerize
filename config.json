@@ -1,1 +1,20 @@
-{"folders": [{"path": "testing\\dst\\comp1005", "summary": "C Programming"}, {"path": "testing\\dst\\comp1006", "summary": "Assembly"}, {"path": "testing\\dst\\comp1007", "summary": "Digital Logic"}, {"path": "testing\\dst\\comp1001", "summary": "Discrete Maths"}, {"path": "D:\\dev\\hacknotts\\23\\Filerize\\testing\\dst\\manga", "summary": "Manga"}]}
+{
+    "folders": [
+        {
+            "path": "testing/dst/comp1005",
+            "summary": "C Programming"
+        },
+        {
+            "path": "testing/dst/comp1006",
+            "summary": "Assembly"
+        },
+        {
+            "path": "testing/dst/comp1007",
+            "summary": "Digital Logic"
+        },
+        {
+            "path": "testing/dst/comp1001",
+            "summary": "Discrete Maths"
+        }
+    ]
+}
