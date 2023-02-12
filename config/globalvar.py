@@ -1,0 +1,2 @@
+DEFAULT_CONFIG_PATH = 'config.json'
+DEFAULT_SOURCE_FOLDER = '.'

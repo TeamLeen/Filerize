@@ -11,12 +11,15 @@ class Handler(FileSystemEventHandler):
         if event.is_directory:
             return None
   
-        elif event.event_type == 'created':
-            # Event is created, you can process it now
-            logging.info("Watchdog received created event - % s." % event.src_path)
-        elif event.event_type == 'modified':
-            # Event is modified, you can process it now
-            logging.info("Watchdog received modified event - % s." % event.src_path)
+        # elif event.event_type == 'created':
+        #     # Event is created, you can process it now
+        #     logging.info("Watchdog received created event - % s." % event.src_path)
+        # elif event.event_type == 'modified':
+        #     # Event is modified, you can process it now
+        #     logging.info("Watchdog received modified event - % s." % event.src_path)
+
+        if event.event_type == 'created' or event.event_type == 'modified':
+            print(event.src_path)
 
 class ListenForFiles:
   
@@ -42,6 +45,6 @@ class ListenForFiles:
 
               
   
-# if __name__ == '__main__':
-#     watch = ListenFile()
-#     watch.run()
+if __name__ == '__main__':
+    watch = ListenForFiles(".\\")
+    watch.run()
