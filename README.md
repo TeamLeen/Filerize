@@ -16,3 +16,4 @@ Specify the names of your folders in config and it'll categorize your documents 
 
 ## Configurating
 Example configuration file in `config.example.json`
+

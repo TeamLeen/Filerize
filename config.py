@@ -8,7 +8,7 @@ template = {
 class Config:
     path: str = None
     labels = {}
-    src_folder_path = None
+    # src_folder_path = None
     
 
 
@@ -20,7 +20,7 @@ class Config:
         with open(file=cls.path, encoding="utf-8", mode="r") as f:
             parsed = json.load(f)
 
-            cls.src_folder_path = os.path.abspath(parsed['src_folder_path'])
+            # cls.src_folder_path = os.path.abspath(parsed['src_folder_path'])
 
             # Convert list of kv pairs to dict
             for folder in parsed['folders']:
@@ -30,25 +30,29 @@ class Config:
     def save(cls) -> None:
         # Convert dict to list of kv pairs
         buffer = {}
-        buffer['src_folder_path'] = os.path.abspath(
-            cls.src_folder_path)  # redunant but might as well
+        # buffer['src_folder_path'] = os.path.abspath(
+        #     cls.src_folder_path)  # redunant but might as well
 
         buffer['folder'] = []
         for label in cls.labels:
             buffer['folder'].append({
                 'path': label,
-                'summary': cls.labels['label']
+                'summary': cls.labels[label]
             })
 
         with open(file=cls.path, encoding='utf-8', mode="w") as f:
             json.dump(buffer, f)
     
-    # # TODO: create config file if not exist
-    # @classmethod
-    # def create(cls, path:str = None) -> None:
-    #     cls.path = os.path.abspath(path=path)
-    #     with open(file=cls.path, mode="w+") as f:
-            
+    # TODO: create config file if not exist
+    @classmethod
+    def create(cls, path:str = None) -> None:
+        cls.path = os.path.abspath(path=path)
+        with open(file=cls.path, mode="w+") as f:
+            json_obj = json.dumps(template, indent=4)
+            f.write(json_obj)
+        
+    # TODO: delete config file - related to cli.py
+    # def delete(cls, path:str = None) -> None:
 
     @classmethod
     def set_src_folder(cls, path: str) -> None:
