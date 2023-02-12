@@ -21,7 +21,7 @@ class FileClassifier:
         :param dict[str, str] labels: a dict of labels + summaries 
         """
         # TODO: tweak
-        PRE_PROMPT = "Classify the text into one of the following categories:"
+        PRE_PROMPT = "Classify the document content into the right folder based on its summary:"
 
         GPT_ARGS = {
             'model': 'text-davinci-003',
@@ -37,11 +37,12 @@ class FileClassifier:
         for l in labels:
             labels[l] = labels[l].strip()
 
-        summaries = [s.strip() for s in labels.values()]
+        prompt = f"{PRE_PROMPT} Document Content: \n{text}, Folders:\n" + "\n"
+        # TODO: add folders to this 
 
-        prompt = f"{PRE_PROMPT} {', '.join(labels.values())}\n\n" \
-            f"Text: \n{text}"
-
+        print("_____")
+        print(prompt)
+        print("_____")
         response = await openai.Completion.acreate(
             prompt=prompt,
             **GPT_ARGS,
