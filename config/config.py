@@ -8,13 +8,6 @@ template = {
     "folders": [],
 }
 
-
-class Config:
-    path: str = gv.DEFAULT_CONFIG_PATH
-    labels = {}
-    # src_folder_path = None
-    
-
 class Config:
     path: str = gv.DEFAULT_CONFIG_PATH
     labels = {}

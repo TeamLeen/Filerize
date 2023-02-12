@@ -7,6 +7,8 @@ import click
 from config.config import Config
 from config import globalvar as gv
 import Filerize
+from filetools.FileToText import FileToText as fileparser
+from listener.filemonitor import ListenForFiles
 
 _common_options = [
     click.argument("directory", type=str),
@@ -44,6 +46,7 @@ def cli_start(ctx:click.Context, **args):
     check_config()
     asyncio.run(Filerize.sort(path=args['directory']))
     # run continous behaviour
+    
 
 
 @cli.command("sort", help="sort all folders in given directory into given labels")
@@ -60,8 +63,10 @@ def cli_sort(ctx:click.Context, **args):
 @click.help_option("-h", "--help")
 @click.pass_context
 def cli_listen(ctx:click.Context, **args):
-    print("NOT IMPLEMENTED")
-    pass
+    check_directory(args['directory'])
+    check_config()
+    listener = ListenForFiles(dir=args["directory"])
+    listener.run()
 
 
 @cli.command("config", help="edit config file")
@@ -70,6 +75,22 @@ def cli_listen(ctx:click.Context, **args):
 @click.pass_context
 def cli_config(ctx:click.Context, **args):
     print("NOT IMPLEMENTED")
+    pass
+
+@cli.command("debug", help="debug - not to be in production")
+@click.help_option("-h", "--help")
+@click.pass_context
+def cli_debug(ctx:click.Context, **args):
+    Config.load(cfg_path=gv.DEFAULT_CONFIG_PATH)
+    label = asyncio.run(Filerize.label_file(r"D:\dev\hacknotts\23\Filerize\testing\untouched\COMP1004-MySQL-setup.docx"))
+    print(label)
+    pass
+
+@cli.command("recursive_print", help="debug - not to be in production")
+@click.help_option("-h", "--help")
+@click.pass_context
+def cli_debug(ctx:click.Context, **args):
+    asyncio.run(Filerize.sort(path=args['directory']))
     pass
 
     
