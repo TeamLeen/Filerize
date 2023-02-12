@@ -8,7 +8,7 @@ from config.config import Config
 from config import globalvar as gv
 import Filerize
 from filetools.FileToText import FileToText as fileparser
-from listener.filemonitor import ListenForFiles
+from filetools.fwatchdog import ListenForFiles
 
 _common_options = [
     click.argument("directory", type=str),

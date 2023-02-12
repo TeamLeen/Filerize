@@ -7,7 +7,7 @@ import filetools.fstructs as fstructs
 import filetools.ftools as ftools
 from classify import FileClassifier
 from config.config import Config
-from filetools.filemonitor import ListenForFiles
+from filetools.fwatchdog import ListenForFiles
 from filetools.FileToText import FileToText
 from config import globalvar as gv
 
@@ -52,13 +52,13 @@ class ConfigHandler:
     def load_config() -> None:
         Config.load(gv.DEFAULT_CONFIG_PATH)
 
-def init(path) -> fstructs.Folder:
+def init(directory) -> fstructs.Folder:
     if not ConfigHandler.check_config():
         ConfigHandler.create_config()
     
     ConfigHandler.load_config()
     
-    folder = fstructs.Folder(path = path)
+    folder = fstructs.Folder(path = directory)
     ftools.full_crawl(folder=folder)
     
     return folder
@@ -68,7 +68,8 @@ def sort(folder: fstructs.Folder):
     ftools.move_all(folder=folder)
 
 def listen(folder: fstructs.Folder):
-    ListenForFiles
+    listener = ListenForFiles(dir=folder.path)
+    listener.run()
 
 
 # async def sort(path: str):

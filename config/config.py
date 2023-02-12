@@ -10,6 +10,7 @@ template = {
 
 class Config:
     path: str = gv.DEFAULT_CONFIG_PATH
+    src_dir: str = None
     labels = {}
 
     @classmethod
@@ -56,6 +57,10 @@ class Config:
     @classmethod
     def add_label(cls, label: str, summary: str) -> None:
         cls.labels[label] = summary
+        
+    @classmethod
+    def set_src_dir(cls, path) -> None:
+        cls.src_dir = path
 
 
 # if __name__ == '__main__':
