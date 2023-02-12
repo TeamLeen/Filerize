@@ -1,11 +1,11 @@
 import asyncio
 import json
-import os
 import logging
+import os
 
 from classify import FileClassifier
-from filetools.FileToText import FileToText
 from config.config import Config
+from filetools.FileToText import FileToText
 
 #  local testing
 if __name__ == "__main__":
@@ -30,38 +30,62 @@ def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
 
     return folder
 
+
 def full_crawl(folder: fstructs.Folder = None) -> None:
     """
     Crawl entire structure and return directory tree of given root directory - Done recursively
     """
     folder = crawl(folder=folder)
-    for subfolder in folder.subfolders: full_crawl(folder=subfolder)
-    
+    for subfolder in folder.subfolders:
+        full_crawl(folder=subfolder)
 
 
 async def label_all(folder: fstructs.Folder = None):
     """ 
     Parent Function
-    
+
     Give all included files found in tree a label according to GPT-3
     """
     await label_files(folder=folder)
-    for subfolder in folder.subfolders: await label_all(folder=subfolder)
+    for subfolder in folder.subfolders:
+        await label_all(folder=subfolder)
+
 
 async def label_files(folder: fstructs.Folder):
     """
     Child Function to label_all
-    
+
     Parse documents and classify them w/ labels provided by config 
     """
-    
+
+    CONV_OPT = {
+        "CUT_STR": True,
+        "max_output_length": 1000
+    }
+
     # TODO: allow multiple document types
-    files = [file for file in folder.files if file.ext == 'pdf']
     tasks: dict[fstructs.File, asyncio.Task] = {}
-    for file in files:
+    for file in folder.files:
         # PDF to text
-        test_pdf: str = FileToText.pdf_to_text(
-            f'{file.path}', CUT_STR=True, max_output_length=1000)
+        match file.ext:
+            case 'pdf':
+                test_pdf: str = FileToText.pdf_to_text(
+                    f'{file.path}', **CONV_OPT)
+
+            case 'docx':
+                test_pdf: str = FileToText.docx_to_text(
+                    f'{file.path}', **CONV_OPT
+                )
+
+            case 'pptx':
+                test_pdf: str = FileToText.pptx_to_text(
+                    f'{file.path}', **CONV_OPT
+                )
+
+            case _:
+                # Skip file
+                continue
+
         # Classify text
         tasks[file] = asyncio.create_task(
             FileClassifier.classify(test_pdf, Config.labels))
@@ -69,27 +93,29 @@ async def label_files(folder: fstructs.Folder):
     for file in tasks:
         file.label = await tasks[file]
 
-async def label_file(path:str):
+
+async def label_file(path: str):
     """
     Child function to FileMonitor
-    
+
     Parse single document and classify with label
     """
-    text:str = FileToText.docx_to_text(
+    text: str = FileToText.docx_to_text(
         path=path,
         CUT_STR=True, max_output_length=1000)
     return await FileClassifier.classify(text, Config.labels)
-
 
 
 def print_tree(folder: fstructs.Folder = None):
     """
     Debug -> print tree recursively
     """
-    for file in folder.files: print(file.path, file.name)
+    for file in folder.files:
+        print(file.path, file.name)
     for subfolder in folder.subfolders:
         print(f"moving to {subfolder.path}")
-        print_tree(folder = subfolder)
+        print_tree(folder=subfolder)
+
 
 def move_all(folder: fstructs.Folder = None) -> None:
     """
@@ -97,10 +123,9 @@ def move_all(folder: fstructs.Folder = None) -> None:
     """
     for file in folder.files:
         move_single(src=file.path, dst_root=file.label, filename=file.name)
-            
+
     for subfolder in folder.subfolders:
         move_all(folder=subfolder)
-
 
 
 def move_single(src: str, dst_root: str, filename: str) -> None:
