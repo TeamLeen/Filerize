@@ -40,9 +40,9 @@ def recursive_move(folder: fstructs.Folder = None) -> None:
 
     for file in folder.files:
         if file.label and os.path.exists(file.path):
-            print(file.label, file.name)
-            dst = os.path.join(file.label, file.name)
-            # os.rename(src=file.path, dst=dst)
+            # print(file.label, file.name)
+            dst = os.path.abspath(os.path.join(file.label, file.name))
+            os.rename(src=file.path, dst=dst)
         else:
             logging.error(f"failed")
             

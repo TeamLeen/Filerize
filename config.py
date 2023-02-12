@@ -1,18 +1,20 @@
 import json
-
+import os
 
 class Config:
-    path: str = r"D:\dev\hacknotts\23\Filerize\config.example.json"
+    path: str = None
     labels = {}
     src_folder_path = None
 
     @classmethod
-    def load(cls) -> None:
-        # TODO: create config file if not exist
+    def load(cls, cfg_path) -> None:
+        
+        cls.path = os.path.abspath(cfg_path)
+
         with open(file=cls.path, encoding="utf-8", mode="r") as f:
             parsed = json.load(f)
 
-            cls.src_folder_path = parsed['src_folder_path']
+            cls.src_folder_path = os.path.abspath(parsed['src_folder_path'])
 
             # Convert list of kv pairs to dict
             for folder in parsed['folders']:
@@ -22,7 +24,7 @@ class Config:
     def save(cls) -> None:
         # Convert dict to list of kv pairs
         buffer = {}
-        buffer['src_folder_path'] = cls.src_folder_path
+        buffer['src_folder_path'] = os.path.abspath(cls.src_folder_path)  # redunant but might as well
 
         buffer['folder'] = []
         for label in cls.labels:
@@ -33,24 +35,25 @@ class Config:
 
         with open(file=cls.path, encoding='utf-8', mode="w") as f:
             json.dump(buffer, f)
+    
+    # TODO: create config file if not exist
+    # @classmethod
+    # def create(cls):
+        
 
     @classmethod
     def set_src_folder(cls, path: str) -> None:
-        cls.src_folder_path = path
+        cls.src_folder_path = os.path.abspath(path)
 
     @classmethod
     def add_label(cls, label: str, summary: str) -> None:
         cls.labels[label] = summary
 
-    @classmethod
-    def set_path(cls, path: str):
-        cls.path = path
 
+# if __name__ == '__main__':
+#     Config.load()
+#     Config.set_src_folder('test_files')
 
-if __name__ == '__main__':
-    Config.load()
-    Config.set_src_folder('test_files')
-
-    # Debug print
-    print(Config.labels)
-    print(Config.src_folder_path)
+#     # Debug print
+#     print(Config.labels)
+#     print(Config.src_folder_path)
