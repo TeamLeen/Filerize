@@ -39,12 +39,7 @@ async def recursive_visit(folder: fstructs.Folder = None, visit=None):
 def recursive_move(folder: fstructs.Folder = None) -> None:
 
     for file in folder.files:
-        if file.label and os.path.exists(file.path):
-            # print(file.label, file.name)
-            dst = os.path.abspath(os.path.join(file.label, file.name))
-            os.rename(src=file.path, dst=dst)
-        else:
-            logging.error(f"failed")
+        move(src=file)
             
     for subfolder in folder.subfolders:
         recursive_move(folder=subfolder)
@@ -56,11 +51,11 @@ def recursive_print(folder: fstructs.Folder = None):
         print(f"moving to {subfolder.path}")
         recursive_print(folder = subfolder)
 
-def move(src: fstructs.File = None, dst: str = None) -> None:
+def move(src: fstructs.File = None) -> None:
     """ move file """
 
-    if os.path.exists(src.path):
-        dst = os.path.join(src.label, src.name)
+    if src.label and os.path.exists(src.path):
+        dst = os.path.abspath(os.path.join(src.label, src.name))
         os.rename(src=src.path, dst=dst)
     else:
-        raise FileNotFoundError
+        logging.error(f"failed")
