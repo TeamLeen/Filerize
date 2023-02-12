@@ -1,6 +1,7 @@
 import json
 import os
 
+
 class Config:
     path: str = None
     labels = {}
@@ -8,7 +9,7 @@ class Config:
 
     @classmethod
     def load(cls, cfg_path) -> None:
-        
+
         cls.path = os.path.abspath(cfg_path)
 
         with open(file=cls.path, encoding="utf-8", mode="r") as f:
@@ -24,7 +25,8 @@ class Config:
     def save(cls) -> None:
         # Convert dict to list of kv pairs
         buffer = {}
-        buffer['src_folder_path'] = os.path.abspath(cls.src_folder_path)  # redunant but might as well
+        buffer['src_folder_path'] = os.path.abspath(
+            cls.src_folder_path)  # redunant but might as well
 
         buffer['folder'] = []
         for label in cls.labels:
@@ -35,11 +37,10 @@ class Config:
 
         with open(file=cls.path, encoding='utf-8', mode="w") as f:
             json.dump(buffer, f)
-    
+
     # TODO: create config file if not exist
     # @classmethod
     # def create(cls):
-        
 
     @classmethod
     def set_src_folder(cls, path: str) -> None:
