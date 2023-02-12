@@ -80,7 +80,7 @@ def cli_listen(ctx:click.Context, **args):
 def cli_config(ctx:click.Context, **args):
 
 
-    if all([args["add"], args["delete"], args["show"]]) or not all([args["add"], args["delete"], args["show"]]):
+    if all([args["add"], args["delete"], args["show"]]):
         print("usage: --add | --delete | --show | (not all)")
         return
     else:
