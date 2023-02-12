@@ -1,7 +1,7 @@
 # import time module, Observer, FileSystemEventHandler
 import time
 import logging
-import asyncio
+import asyncio, os
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -14,7 +14,7 @@ class Handler(FileSystemEventHandler):
     event_buffer = []
   
     @staticmethod
-    def on_any_event(cls, event):
+    def on_any_event(event):
         if event.is_directory:
             return None
   
@@ -27,14 +27,11 @@ class Handler(FileSystemEventHandler):
 
         if event.event_type == 'created' or event.event_type == 'modified':
             
-            eb = (event.event_type, event.src_path)
-            if eb not in cls.event_buffer:
-                cls.event_buffer.append(eb)
+            if os.path.exists(event.src_path):
             
                 label = asyncio.run(ftools.label_file(path=event.src_path))
                 ftools.move_single(src=event.src_path, dst_root=label, filename=event.src_path.split("\\")[-1])
-            else:
-                cls.event_buffer.clear()
+
                         
 
 class ListenForFiles:
