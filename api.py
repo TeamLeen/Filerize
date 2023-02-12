@@ -29,8 +29,6 @@ async def label_folder(folder: fstructs.Folder):
 
 
 async def init(args):
-    Config.load()
-    Config.set_src_folder('test_files')
 
     folder = fstructs.Folder(path=args.directory)
     await ftools.recursive_visit(folder=folder, visit=label_folder)
