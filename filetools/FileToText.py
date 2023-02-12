@@ -73,6 +73,13 @@ class FileToText:
             file_text = file_text[:max_output_length]
 
         return file_text
+    
+    
+    # sanamorii.github.io
+    @staticmethod
+    def epub_to_text():
+        pass
+    # end
 
     
     @staticmethod
