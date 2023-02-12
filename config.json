@@ -15,10 +15,6 @@
         {
             "path": "testing\\dst\\comp1001",
             "summary": "Discrete Maths"
-        },
-        {
-            "path": "testing\\dst\\comp1004",
-            "summary": "Relational Databases"
         }
     ]
 }
