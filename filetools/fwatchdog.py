@@ -29,7 +29,7 @@ class Handler(FileSystemEventHandler):
             
             if os.path.exists(event.src_path):
             
-                label = asyncio.create_task(ftools.label_file(path=event.src_path))
+                label = asyncio.run(ftools.label_file(path=event.src_path))
                 ftools.move_single(src=event.src_path, dst_root=label, filename=event.src_path.split("\\")[-1])
 
                         
@@ -42,7 +42,7 @@ class ListenForFiles:
   
     def run(self):
         
-        logging.info("FileMonitor Daemon has started")
+        print("File Observor Daemon has started")
 
         event_handler = Handler()
         self.observer.schedule(event_handler, path=self.directory, recursive = True)

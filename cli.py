@@ -90,16 +90,16 @@ def cli_config(ctx:click.Context, **args):
         
         pth = os.path.abspath(args["add"])
         
-        if os.path.exists(path=pth):
-            sum = str(input(f"Enter directory summary: "))
-            if sum == "":
-                print("Error: no summary. Aborting...")
-                return
-            Config.add_label(label=pth, summary=sum)
-            Config.save()
-        else:
-            print("Error: directory does not exist")
+        if not os.path.exists(path=pth):
+            print("Warning: Path does not exist. Making one...")
+            os.mkdir(pth)
+        sum = str(input(f"Enter directory summary: "))
+        if sum == "":
+            print("Error: no summary. Aborting...")
             return
+        Config.add_label(label=pth, summary=sum)
+        Config.save()
+
     elif args["delete"]:
         pth = os.path.abspath(args["delete"])
         stat = Config.delete_label(label=pth)
