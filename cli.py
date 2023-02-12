@@ -67,10 +67,8 @@ def cli_sort(ctx:click.Context, **args):
 @click.help_option("-h", "--help")
 @click.pass_context
 def cli_listen(ctx:click.Context, **args):
-    check_directory(args['directory'])
-    check_config()
-    listener = ListenForFiles(dir=args["directory"])
-    listener.run()
+    folder = Filerize.init(args['directory'])
+    Filerize.listen(folder=folder)
 
 
 @cli.command("config", help="edit config file")

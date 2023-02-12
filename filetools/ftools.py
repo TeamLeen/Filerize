@@ -100,9 +100,25 @@ async def label_file(path: str):
 
     Parse single document and classify with label
     """
-    text: str = FileToText.docx_to_text(
-        path=path,
-        CUT_STR=True, max_output_length=1000)
+    CONV_OPT = {
+        "CUT_STR": True,
+        "max_output_length": 1000
+    }
+    ext = os.path.basename(path).split(".")[-1]
+    if ext == 'pdf':
+
+        text: str = FileToText.pdf_to_text(
+            path, **CONV_OPT)
+
+    elif ext == 'docx':
+        text: str = FileToText.docx_to_text(
+            path, **CONV_OPT)
+
+    elif ext == 'pptx':
+        text: str = FileToText.pptx_to_text(
+            path, **CONV_OPT)
+
+        
     return await FileClassifier.classify(text, Config.labels)
 
 
