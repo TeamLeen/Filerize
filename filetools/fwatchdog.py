@@ -29,7 +29,7 @@ class Handler(FileSystemEventHandler):
             
             if os.path.exists(event.src_path):
             
-                label = asyncio.run(ftools.label_file(path=event.src_path))
+                label = asyncio.create_task(ftools.label_file(path=event.src_path))
                 ftools.move_single(src=event.src_path, dst_root=label, filename=event.src_path.split("\\")[-1])
 
                         
