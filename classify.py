@@ -12,7 +12,8 @@ openai.api_key = os.environ.get('openai_token').rstrip("\n")
 class FileClassifier:
 
     @staticmethod
-    async def classify(text: str, labels: dict[str, str]) -> str | None:
+    # Works with short summaries
+    async def _classify(text: str, labels: dict[str, str]) -> str | None:
         """
         Classifies a given text with into a set of categories
         Returns: the chosen label / None if no label is chosen
@@ -21,7 +22,7 @@ class FileClassifier:
         :param dict[str, str] labels: a dict of labels + summaries 
         """
         # TODO: tweak
-        PRE_PROMPT = "Classify the document content into the right folder based on its summary:"
+        PRE_PROMPT = "Classify the document content into the right folder based on its summary.\n"
 
         GPT_ARGS = {
             'model': 'text-davinci-003',
@@ -37,12 +38,62 @@ class FileClassifier:
         for l in labels:
             labels[l] = labels[l].strip()
 
-        prompt = f"{PRE_PROMPT} Document Content: \n{text}, Folders:\n" + "\n"
-        # TODO: add folders to this 
+        prompt = f"{PRE_PROMPT} Document Content: {text}\n\n"
+        prompt += "Folders:\n" + \
+            '\n'.join(f'- [{l}]({labels[l]})' for l in labels)
+        prompt += "\n\n The right folder path:"
+        print(prompt)
+        # TODO: add folders to this
 
         print("_____")
         print(prompt)
         print("_____")
+        response = await openai.Completion.acreate(
+            prompt=prompt,
+            **GPT_ARGS,
+        )
+
+        try:
+            # i hate union types >:(
+            cat = response.get('choices')[0].text.strip()
+            print(cat)
+            for k, v in labels.items():
+                if cat.find(v) != -1:
+                    return k
+            return None
+        except (KeyError, IndexError):
+            return None
+
+    # Works with the longer summaries
+    @staticmethod
+    async def classify(text: str, labels: dict[str, str]) -> str | None:
+        """
+        Classifies a given text with into a set of categories
+        Returns: the chosen label / None if no label is chosen
+
+        :param str text: The text to be classified
+        :param dict[str, str] labels: a dict of labels + summaries 
+        """
+        # TODO: tweak
+        PRE_PROMPT = "Classify the text into one of the following categories:"
+
+        GPT_ARGS = {
+            'model': 'text-davinci-003',
+            'temperature': 0,
+            'max_tokens': 60,
+            'top_p': 1.0,
+            'frequency_penalty': 0.0,
+            'presence_penalty': 0.0
+        }
+
+        text = text.replace('\n', ' ')
+        labels = labels.copy()
+        for l in labels:
+            labels[l] = labels[l].strip()
+
+        prompt = f"{PRE_PROMPT} {', '.join(labels.values())}\n\n" \
+            f"Text: \n{text}"
+
         response = await openai.Completion.acreate(
             prompt=prompt,
             **GPT_ARGS,
