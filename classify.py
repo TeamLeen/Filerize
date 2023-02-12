@@ -32,32 +32,30 @@ class FileClassifier:
             'presence_penalty': 0.0
         }
 
-        async with ClientSession() as session:
-            openai.aiosession.set(session)
-            text = text.replace('\n', ' ')
-            labels = labels.copy()
-            for l in labels:
-                labels[l] = labels[l].strip()
+        text = text.replace('\n', ' ')
+        labels = labels.copy()
+        for l in labels:
+            labels[l] = labels[l].strip()
 
-            summaries = [s.strip() for s in labels.values()]
+        summaries = [s.strip() for s in labels.values()]
 
-            prompt = f"{PRE_PROMPT} {', '.join(labels.values())}\n\n" \
-                f"Text: \n{text}"
+        prompt = f"{PRE_PROMPT} {', '.join(labels.values())}\n\n" \
+            f"Text: \n{text}"
 
-            response = openai.Completion.create(
-                prompt=prompt,
-                **GPT_ARGS,
-            )
+        response = await openai.Completion.acreate(
+            prompt=prompt,
+            **GPT_ARGS,
+        )
 
-            try:
-                # i hate union types >:(
-                cat = response.get('choices')[0].text.strip()
-                for k, v in labels.items():
-                    if cat.find(v) != -1:
-                        return k
-                return None
-            except (KeyError, IndexError):
-                return None
+        try:
+            # i hate union types >:(
+            cat = response.get('choices')[0].text.strip()
+            for k, v in labels.items():
+                if cat.find(v) != -1:
+                    return k
+            return None
+        except (KeyError, IndexError):
+            return None
 
     @staticmethod
     async def summarize(text, max_chars=100, max_words=5):
