@@ -1,10 +1,16 @@
 import json
 import os
 
+template = {
+    "folders": [],
+}
+
 class Config:
     path: str = None
     labels = {}
     src_folder_path = None
+    
+
 
     @classmethod
     def load(cls, cfg_path) -> None:
@@ -36,10 +42,12 @@ class Config:
         with open(file=cls.path, encoding='utf-8', mode="w") as f:
             json.dump(buffer, f)
     
-    # TODO: create config file if not exist
+    # # TODO: create config file if not exist
     # @classmethod
-    # def create(cls):
-        
+    # def create(cls, path:str = None) -> None:
+    #     cls.path = os.path.abspath(path=path)
+    #     with open(file=cls.path, mode="w+") as f:
+            
 
     @classmethod
     def set_src_folder(cls, path: str) -> None:
