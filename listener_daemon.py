@@ -17,6 +17,4 @@ def main():
     daemon.start()
     func2.start()
 
-
-
 main()
