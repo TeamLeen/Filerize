@@ -16,7 +16,12 @@ class File(object):
         self.label: str | None = None
 
     def ParsePath(self) -> tuple[str, str]:
-        return self.path.split("\\")[-1], self.path.split(".")[-1]
+        filename = os.path.basename(self.path)
+        if "." in filename: ext = filename.split(".")[-1]
+        else: ext = None
+        
+        # print(filename, ext)
+        return os.path.basename(self.path), ext
 
     # def Hash(self):
     #     BUF_SIZE = 65536
