@@ -2,7 +2,7 @@ import json
 import os
 
 from config import globalvar as gv
-
+from filetools import fstructs
 
 template = {
     "folders": [],
@@ -11,6 +11,7 @@ template = {
 class Config:
     path: str = gv.DEFAULT_CONFIG_PATH
     src_dir: str = None
+    folder: fstructs.Folder = None
     labels = {}
 
     @classmethod
@@ -61,6 +62,9 @@ class Config:
     @classmethod
     def set_src_dir(cls, path) -> None:
         cls.src_dir = path
+        
+    def set_folder(cls, folder: fstructs.Folder) -> None:
+        cls.folder = folder
 
 
 # if __name__ == '__main__':

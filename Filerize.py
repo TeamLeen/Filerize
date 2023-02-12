@@ -49,6 +49,7 @@ class ConfigHandler:
             
         Config.save()
     
+    @staticmethod
     def load_config() -> None:
         Config.load(gv.DEFAULT_CONFIG_PATH)
 
