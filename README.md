@@ -1,3 +1,6 @@
+# Note:
+You're currently viewing the `hacknotts` submission of Filerize - to see current version please switch to `main` branch
+
 # Filerize
 Document sorter and organizer with GPT-3
 
