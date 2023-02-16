@@ -1,25 +1,27 @@
-import time, sys
-import os
-import logging
 import asyncio
+import logging
+import os
+import sys
+import time
+
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 import filetools.fstructs as fstructs
 import filetools.ftools as ftools
 from classify import FileClassifier
-from config.config import Config
-from filetools.fwatchdog import ListenForFiles
-from filetools.FileToText import FileToText
 from config import globalvar as gv
+from config.config import Config
+from filetools.FileToText import FileToText
+from filetools.fwatchdog import ListenForFiles
 
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
 class ConfigHandler:
     @staticmethod
     def check_config() -> bool:
         return os.path.exists(gv.DEFAULT_CONFIG_PATH)
-        
-    @staticmethod   
+
+    @staticmethod
     def create_config() -> None:
         print("No config file detected...\nInitialising & creating config file...")
         print("Creating config...")
@@ -28,45 +30,50 @@ class ConfigHandler:
         c = 0
         while True:
             pth = sum = None
-            
+
             pth = str(input(f"Enter directory {c+1}: "))
             if not os.path.exists(pth) and pth != "q":
                 print("Given directory does not exist")
                 continue
-            elif pth == "q": break
-            
+            elif pth == "q":
+                break
+
             sum = str(input(f"Enter directory {c+1} summary: "))
-            if sum == "q": break
-            
-            c+=1
+            if sum == "q":
+                break
+
+            c += 1
             print("\n", end="")
-            
+
             Config.add_label(label=pth, summary=sum)
         if not c:
             # TODO: Delete config file
             print("No directories given. Aborting...")
             exit()
-            
+
         Config.save()
-    
+
     @staticmethod
     def load_config() -> None:
         Config.load(gv.DEFAULT_CONFIG_PATH)
 
+
 def init(directory) -> fstructs.Folder:
     if not ConfigHandler.check_config():
         ConfigHandler.create_config()
-    
+
     ConfigHandler.load_config()
-    
-    folder = fstructs.Folder(path = directory)
+
+    folder = fstructs.Folder(path=directory)
     ftools.full_crawl(folder=folder)
-    
+
     return folder
-    
+
+
 def sort(folder: fstructs.Folder):
     asyncio.run(ftools.label_all(folder=folder))
     ftools.move_all(folder=folder)
+
 
 def listen(folder: fstructs.Folder):
     listener = ListenForFiles(dir=folder.path)
@@ -107,6 +114,3 @@ if __name__ == "__main__":
     ftools.full_crawl(folder=folder)
     asyncio.run(ftools.label_all(folder=folder))
     ftools.move_all(folder=folder)
-    
-
-

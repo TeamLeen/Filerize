@@ -1,71 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-        <link rel="stylesheet" href="./style/main.css">
-        <script type='text/javascript' src='/eel.js'></script>
-        <title>Filerize</title>
-    </head>
-    <body>
-        <header class="container has-background-light py-4 px-4 mt-2">
-            <h1 class="title is-2">
-                Filerize
-            </h1>
-        </header>
-        <main class="container">
-            <h2 class="title is-3 mt-5">Source Folder</h2>
-            <div class="has-background-light rounded py-5 px-5">
-                <form action="" id="source_folder_form">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="./style/main.css">
+    <script type='text/javascript' src='/eel.js'></script>
+    <title>Filerize</title>
+</head>
+
+<body>
+    <header class="container has-background-light py-4 px-4 mt-2">
+        <h1 class="title is-2">
+            Filerize
+        </h1>
+    </header>
+    <main class="container">
+        <h2 class="title is-3 mt-5">Source Folder</h2>
+        <div class="has-background-light rounded py-5 px-5">
+            <form action="" id="source_folder_form">
+                <div>
+                    <label class="label">Select Folder</label>
+                    <div class="folder_select py-5 px-5 has-background-white rounded">
+                        <span class="py-3 px-3 has-background-light rounded browse_button">
+                            Browse
+                        </span>
+                        <span class="path ml-4" id="source_path"></span>
+                    </div>
+                </div>
+                <p class="has-text-grey mt-3">
+                    The source folder is the folder where you drop your documents to be sorted.
+                </p>
+                <button class="button is-success mt-5">Submit</button>
+            </form>
+        </div>
+        <h2 class="title is-3 mt-5 mb-3">Destination Folders</h2>
+        <p class="has-text-grey mt-0 pt-0 mb-4">
+            The destination folder is where your documents will go after the AI takes a look at them and decide where
+            they should go.
+            The summary of folders is important for the AI to know what to look for in your documents.
+        </p>
+        <div class="has-background-light py-5 px-5 rounded">
+            <div id="folders_list">
+
+            </div>
+            <div class="folder rounded px-5 py-5">
+                <form action="" id="new_folder_form">
+                    <h3 class="title is-4">Add a new folder</h3>
                     <div>
                         <label class="label">Select Folder</label>
-                        <div class="folder_select py-5 px-5 has-background-white rounded">
-                            <span class="py-3 px-3 has-background-light rounded browse_button">
+                        <div class="folder_select py-5 px-5 has-background-light rounded">
+                            <span class="py-3 px-3 has-background-white rounded browse_button">
                                 Browse
                             </span>
-                            <span class="path ml-4" id="source_path"></span>
+                            <span class="path ml-4"></span>
                         </div>
                     </div>
-                    <p class="has-text-grey mt-3">
-                        The source folder is the folder where you drop your documents to be sorted.
-                    </p>
-                    <button class="button is-success mt-5">Submit</button>
+                    <div class="mt-4">
+                        <label class="label" for="folder_description">Folder Description</label>
+                        <textarea class="control textarea" name="" id="folder_description" cols="10"
+                            rows="5"></textarea>
+                        <div class="has-text-grey">Write a short description of what this folder should contain.</div>
+                    </div>
+                    <button class="button is-success mt-5">Add</button>
                 </form>
             </div>
-            <h2 class="title is-3 mt-5 mb-3">Destination Folders</h2>
-            <p class="has-text-grey mt-0 pt-0 mb-4">
-                The destination folder is where your documents will go after the AI takes a look at them and decide where they should go.
-                The summary of folders is important for the AI to know what to look for in your documents. 
-            </p>
-            <div class="has-background-light py-5 px-5 rounded">
-                <div id="folders_list">
+        </div>
+    </main>
+    <script src="./script/main.js"></script>
+</body>
 
-                </div>
-                <div class="folder rounded px-5 py-5">
-                    <form action="" id="new_folder_form">
-                        <h3 class="title is-4">Add a new folder</h3>
-                        <div>
-                            <label class="label">Select Folder</label>
-                            <div class="folder_select py-5 px-5 has-background-light rounded">
-                                <span class="py-3 px-3 has-background-white rounded browse_button">
-                                    Browse
-                                </span>
-                                <span class="path ml-4"></span>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <label class="label" for="folder_description">Folder Description</label>
-                            <textarea class="control textarea" name="" id="folder_description" cols="10" rows="5"></textarea>
-                            <div class="has-text-grey">Write a short description of what this folder should contain.</div>
-                        </div>
-                        <button class="button is-success mt-5">Add</button>
-                    </form>
-                </div>
-            </div>
-        </main>
-        <script src="./script/main.js"></script>
-    </body>
 </html>

@@ -1,4 +1,5 @@
 import os
+
 dir = os.path.abspath("./testing/dst")
 dst_root = os.path.abspath("./testing/src")
 for root, dirs, files in os.walk(dir):

@@ -17,9 +17,11 @@ class File(object):
 
     def ParsePath(self) -> tuple[str, str]:
         filename = os.path.basename(self.path)
-        if "." in filename: ext = filename.split(".")[-1]
-        else: ext = None
-        
+        if "." in filename:
+            ext = filename.split(".")[-1]
+        else:
+            ext = None
+
         # print(filename, ext)
         return os.path.basename(self.path), ext
 
