@@ -7,7 +7,6 @@ import time
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-import filetools.fstructs as fstructs
 import filetools.ftools as ftools
 
 

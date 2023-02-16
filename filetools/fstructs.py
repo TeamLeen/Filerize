@@ -1,9 +1,8 @@
 # sanamorii.github.io
 # @sanamorii - jian
 
-import json
 import os
-from hashlib import sha256
+# from hashlib import sha256
 
 
 class File(object):

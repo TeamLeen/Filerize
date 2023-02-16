@@ -3,9 +3,6 @@ import json
 import eel
 import wx
 
-import config
-
-
 @eel.expose
 def get_config_file_content():
     # 
