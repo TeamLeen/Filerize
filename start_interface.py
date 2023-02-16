@@ -3,9 +3,12 @@ import json
 import eel
 import wx
 
+import config
+
 
 @eel.expose
 def get_config_file_content():
+    # 
     with open("./config.json", "r") as config_file:
         config_json = json.loads(config_file.read())
     return config_json

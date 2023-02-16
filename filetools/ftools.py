@@ -14,7 +14,7 @@ else:
     import filetools.fstructs as fstructs
 
 
-def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
+def crawl(folder: fstructs.Folder) -> fstructs.Folder:
     """ crawl first level of given directory """
     root = folder.path
 
@@ -31,7 +31,7 @@ def crawl(folder: fstructs.Folder = None) -> fstructs.Folder:
     return folder
 
 
-def full_crawl(folder: fstructs.Folder = None) -> None:
+def full_crawl(folder: fstructs.Folder) -> None:
     """
     Crawl entire structure and return directory tree of given root directory - Done recursively
     """
@@ -40,7 +40,7 @@ def full_crawl(folder: fstructs.Folder = None) -> None:
         full_crawl(folder=subfolder)
 
 
-async def label_all(folder: fstructs.Folder = None):
+async def label_all(folder: fstructs.Folder):
     """
     Parent Function
 
@@ -55,7 +55,7 @@ async def label_files(folder: fstructs.Folder):
     """
     Child Function to label_all
 
-    Parse documents and classify them w/ labels provided by config
+    Parse documents in the folder and classify them w/ labels provided by config
     """
 
     CONV_OPT = {
@@ -80,7 +80,7 @@ async def label_files(folder: fstructs.Folder):
 
         # Classify text
         tasks[file] = asyncio.create_task(
-            FileClassifier.classify(text, Config.labels))
+            FileClassifier.classify_short(text, Config.labels))
 
     for file in tasks:
         file.label = await tasks[file]
@@ -111,10 +111,10 @@ async def label_file(path: str):
         case _:
             return None
 
-    return await FileClassifier.classify(text, Config.labels)
+    return await FileClassifier.classify_short(text, Config.labels)
 
 
-def print_tree(folder: fstructs.Folder = None):
+def print_tree(folder: fstructs.Folder):
     """
     Debug -> print tree recursively
     """
@@ -125,12 +125,14 @@ def print_tree(folder: fstructs.Folder = None):
         print_tree(folder=subfolder)
 
 
-def move_all(folder: fstructs.Folder = None) -> None:
+def move_all(folder: fstructs.Folder) -> None:
     """
     Move all files found in given tree to assigned label in File object recursively
     """
     for file in folder.files:
-        move_single(src=file.path, dst_root=file.label,
+        # Don't do anything if no label
+        if file.label is not None:
+            move_single(src=file.path, dst_root=file.label,
                     filename=file.name)
 
     for subfolder in folder.subfolders:

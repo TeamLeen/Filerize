@@ -5,15 +5,19 @@ import openai
 from aiohttp import ClientSession
 from dotenv import load_dotenv
 
+from errors import *
+
 load_dotenv()
-openai.api_key = os.environ.get('openai_token').rstrip("\n")
+openai.api_key = os.environ.get('openai_token', '').rstrip("\n")
+if not openai.api_key:
+    raise ConfigError("OpenAI key not found")
 
 
 class FileClassifier:
 
     @staticmethod
     # Works with short summaries
-    async def _classify(text: str, labels: dict[str, str]) -> str | None:
+    async def classify_short(text: str, labels: dict[str, str]) -> str | None:
         """
         Classifies a given text with into a set of categories
         Returns: the chosen label / None if no label is chosen
@@ -53,20 +57,22 @@ class FileClassifier:
             **GPT_ARGS,
         )
 
+        if type(response) is not dict: raise InvalidResponse()
+
         try:
             # i hate union types >:(
-            cat = response.get('choices')[0].text.strip()
+            cat = response['choices'][0].text.strip()
             print(cat)
             for k, v in labels.items():
                 if cat.find(v) != -1:
                     return k
             return None
         except (KeyError, IndexError):
-            return None
+            raise InvalidResponse()
 
     # Works with the longer summaries
     @staticmethod
-    async def classify(text: str, labels: dict[str, str]) -> str | None:
+    async def classify_long(text: str, labels: dict[str, str]) -> str | None:
         """
         Classifies a given text with into a set of categories
         Returns: the chosen label / None if no label is chosen
@@ -99,9 +105,11 @@ class FileClassifier:
             **GPT_ARGS,
         )
 
+        if type(response) is not dict: raise InvalidResponse()
+
         try:
             # i hate union types >:(
-            cat = response.get('choices')[0].text.strip()
+            cat = response['choices'][0].text.strip()
             for k, v in labels.items():
                 if cat.find(v) != -1:
                     return k
@@ -141,7 +149,9 @@ class FileClassifier:
                 **GPT_ARGS
             )
 
+            if type(response) is not dict: raise InvalidResponse()
+
             try:
-                return response.get('choices')[0].text.strip()
+                return response['choices'][0].text.strip()
             except (KeyError, IndexError):
                 return None

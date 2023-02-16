@@ -4,19 +4,18 @@ import os
 from config import globalvar as gv
 from filetools import fstructs
 
-template = {
+TEMPLATE = {
     "folders": [],
 }
 
-
 class Config:
     path: str = gv.DEFAULT_CONFIG_PATH
-    src_dir: str = None
-    folder: fstructs.Folder = None
+    src_dir: str
+    folder: fstructs.Folder
     labels = {}
 
     @classmethod
-    def load(cls, cfg_path) -> None:
+    def load(cls, cfg_path) -> object:
         cls.path = os.path.abspath(cfg_path)
 
         with open(file=cls.path, encoding="utf-8", mode="r") as f:
@@ -27,6 +26,8 @@ class Config:
             # Convert list of kv pairs to dict
             for folder in parsed['folders']:
                 cls.labels[folder['path']] = folder['summary']
+
+        return parsed
 
     @classmethod
     def save(cls) -> None:
@@ -45,16 +46,15 @@ class Config:
         with open(file=cls.path, encoding='utf-8', mode="w") as f:
             json.dump(buffer, f)
 
-    # TODO: create config file if not exist
     @classmethod
-    def create(cls, path: str = None) -> None:
+    def create(cls, path: str) -> None:
         cls.path = os.path.abspath(path=path)
         with open(file=cls.path, mode="w+") as f:
-            json_obj = json.dumps(template, indent=4)
+            json_obj = json.dumps(TEMPLATE, indent=4)
             f.write(json_obj)
 
     # TODO: delete config file - related to cli.py
-    # def delete(cls, path:str = None) -> None:
+    # def delete(cls, path:str) -> None:
 
     @classmethod
     def add_label(cls, label: str, summary: str) -> None:

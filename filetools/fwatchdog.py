@@ -28,12 +28,12 @@ class Handler(FileSystemEventHandler):
         #     logging.info("Watchdog received modified event - % s." % event.src_path)
 
         if event.event_type == 'created' or event.event_type == 'modified':
-
             if os.path.exists(event.src_path):
-
                 label = asyncio.run(ftools.label_file(path=event.src_path))
-                ftools.move_single(
-                    src=event.src_path, dst_root=label, filename=event.src_path.split("\\")[-1])
+                # Don't move if not labelled 
+                if label is not None:
+                    ftools.move_single(
+                        src=event.src_path, dst_root=label, filename=event.src_path.split("\\")[-1])
 
 
 class ListenForFiles:

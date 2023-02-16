@@ -15,7 +15,7 @@ class File(object):
         # self.hash = self.Hash()
         self.label: str | None = None
 
-    def ParsePath(self) -> tuple[str, str]:
+    def ParsePath(self) -> tuple[str, str | None]:
         filename = os.path.basename(self.path)
         if "." in filename:
             ext = filename.split(".")[-1]

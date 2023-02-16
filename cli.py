@@ -131,7 +131,7 @@ def cli_config(ctx: click.Context, **args):
 #     pass
 
 
-def check_directory(directory: str = None) -> None:
+def check_directory(directory: str) -> None:
     if not os.path.exists(directory):
         print("Invalid directory given. Aborting...")
         exit()
