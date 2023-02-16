@@ -16,5 +16,6 @@
             "path": "testing/dst/comp1001",
             "summary": "Discrete Maths"
         }
-    ]
+    ],
+    "src_folder_path": ""
 }
