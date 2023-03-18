@@ -1,20 +1,12 @@
 {
     "folders": [
         {
-            "path": "testing/dst/comp1005",
-            "summary": "C Programming"
+            "path": "D:\\documents\\acadmic_papers",
+            "summary": "Acadmic papers"
         },
         {
-            "path": "testing/dst/comp1006",
-            "summary": "Assembly"
-        },
-        {
-            "path": "testing/dst/comp1007",
-            "summary": "Digital Logic"
-        },
-        {
-            "path": "testing/dst/comp1001",
-            "summary": "Discrete Maths"
+            "path": "/users/basel/maths_homework",
+            "summary": "Maths homework folder for the first year of computer science covering topics such as Logic, Discrete Maths, Number Theory"
         }
     ],
     "src_folder_path": ""
